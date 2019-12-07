@@ -20,11 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+using JetBrains.Annotations;
+
 namespace Puzzle
 {
     /// <summary>
     /// Enumerates the various similarity levels between two images.
     /// </summary>
+    [PublicAPI]
     public enum SignatureSimilarity
     {
         /// <summary>

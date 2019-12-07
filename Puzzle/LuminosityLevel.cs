@@ -20,11 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+using JetBrains.Annotations;
+
 namespace Puzzle
 {
     /// <summary>
     /// Enumerates relative luminosity levels.
     /// </summary>
+    [PublicAPI]
     public enum LuminosityLevel : sbyte
     {
         /// <summary>

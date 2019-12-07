@@ -18,7 +18,9 @@
         <e p="Extensions" t="Include">
           <e p="EnumerableExtensions.cs" t="Include" />
         </e>
+        <e p="FodyWeavers.xml" t="Include" />
         <e p="LuminosityLevel.cs" t="Include" />
+        <e p="Puzzle.ExternalAnnotations.xml" t="Include" />
         <e p="Puzzle.csproj" t="IncludeRecursive" />
         <e p="SignatureComparison.cs" t="Include" />
         <e p="SignatureGenerator.cs" t="Include" />

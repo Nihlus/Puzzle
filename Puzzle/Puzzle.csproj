@@ -4,6 +4,8 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <RootNamespace>Puzzle</RootNamespace>
         <LangVersion>8</LangVersion>
+        <DefineConstants>$(DefineConstants);JETBRAINS_ANNOTATIONS</DefineConstants>
+        <DebugSymbols>true</DebugSymbols>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -42,12 +44,25 @@
     </ItemGroup>
 
     <ItemGroup>
+        <AdditionalFiles Include="Puzzle.ExternalAnnotations.xml">
+            <InProject>false</InProject>
+            <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
+        </AdditionalFiles>
+    </ItemGroup>
+    <ItemGroup>
+        <AdditionalFiles Include="FodyWeavers.xml">
+            <InProject>false</InProject>
+        </AdditionalFiles>
+    </ItemGroup>
+    
+    <ItemGroup>
         <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0007" />
     </ItemGroup>
     
     <ItemGroup>
         <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" PrivateAssets="all" />
         <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.113" PrivateAssets="all" />
+        <PackageReference Include="JetBrainsAnnotations.Fody" Version="2.2.0" PrivateAssets="all" />
     </ItemGroup>
 
 </Project>

@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Puzzle.Extensions;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -34,6 +35,7 @@ namespace Puzzle
     /// <summary>
     /// Represents an image signature generator.
     /// </summary>
+    [PublicAPI]
     public class SignatureGenerator
     {
         /// <summary>
@@ -41,24 +43,28 @@ namespace Puzzle
         /// a value of 9 (the default) would decompose the image into a 9x9 grid of sample points (10x10 blocks), and
         /// then generate the signature from that grid.
         /// </summary>
+        [PublicAPI]
         public uint GridSize { get; }
 
         /// <summary>
         /// Gets the noise cutoff level. This value indicates the distance between two luminosity values within which
         /// two luminosities can be considered equivalent.
         /// </summary>
+        [PublicAPI]
         public double NoiseCutoff { get; }
 
         /// <summary>
         /// Gets the ratio for the sample point size. Typically, this is a value of 2, and serves as a multiplier
         /// against the number of squares the image is subdivided into.
         /// </summary>
+        [PublicAPI]
         public double SampleSizeRatio { get; }
 
         /// <summary>
         /// Gets a value indicating whether the image will be automatically cropped when a signature is
         /// generated.
         /// </summary>
+        [PublicAPI]
         public bool EnableAutocrop { get; }
 
         /// <summary>
@@ -68,6 +74,7 @@ namespace Puzzle
         /// <param name="noiseCutoff">The noise cutoff.</param>
         /// <param name="sampleSizeRatio">The P ratio.</param>
         /// <param name="enableAutocrop">Whether to enable autocrop or not.</param>
+        [PublicAPI]
         public SignatureGenerator
         (
             uint gridSize = 9,
@@ -87,7 +94,9 @@ namespace Puzzle
         /// </summary>
         /// <param name="image">The image to generate the signature from.</param>
         /// <returns>The signature.</returns>
-        public IEnumerable<LuminosityLevel> GenerateSignature(Image<Argb32> image)
+        [PublicAPI]
+        [Pure, NotNull]
+        public IEnumerable<LuminosityLevel> GenerateSignature([NotNull] Image image)
         {
             // Step 1: Generate a vector of double values representing the signature
             // Step 1.1: Remove transparency
@@ -116,7 +125,8 @@ namespace Puzzle
         /// </summary>
         /// <param name="image">The image to crop.</param>
         /// <returns>The cropped image.</returns>
-        public Image<Gray8> AutocropImage(Image<Gray8> image)
+        [Pure, NotNull]
+        private Image<Gray8> AutocropImage([NotNull] Image<Gray8> image)
         {
             image.Mutate(o => o.EntropyCrop());
 
@@ -129,7 +139,8 @@ namespace Puzzle
         /// </summary>
         /// <param name="image">The image to compute the points of.</param>
         /// <returns>The computed points.</returns>
-        public IEnumerable<double> ComputeAverageSampleLuminosities(Image<Gray8> image)
+        [Pure, NotNull]
+        private IEnumerable<double> ComputeAverageSampleLuminosities([NotNull] Image<Gray8> image)
         {
             var squareSize = (int)Math.Max
             (
@@ -150,7 +161,8 @@ namespace Puzzle
         /// </summary>
         /// <param name="image">The image.</param>
         /// <returns>The centers.</returns>
-        public IEnumerable<Point> ComputeSquareCenters(Image<Gray8> image)
+        [Pure, NotNull]
+        private IEnumerable<Point> ComputeSquareCenters([NotNull] Image<Gray8> image)
         {
             var xOffset = image.Width / (double)(GridSize + 1);
             var yOffset = image.Height / (double)(GridSize + 1);
@@ -175,7 +187,8 @@ namespace Puzzle
         /// <param name="squareCenter">The center of the square.</param>
         /// <param name="squareSize">The size of the square.</param>
         /// <returns>The average level of the square.</returns>
-        public double ComputeSquareAverage(Image<Gray8> image, Point squareCenter, int squareSize)
+        [Pure]
+        private double ComputeSquareAverage([NotNull] Image<Gray8> image, Point squareCenter, int squareSize)
         {
             var values = new List<double>();
             var squareCorner = new Point
@@ -213,7 +226,8 @@ namespace Puzzle
         /// <param name="image">The image to sample.</param>
         /// <param name="point">The center of the point to sample.</param>
         /// <returns>The sampled values.</returns>
-        public IEnumerable<Gray8> Sample3x3Point(Image<Gray8> image, Point point)
+        [Pure, NotNull]
+        private IEnumerable<Gray8> Sample3x3Point([NotNull] Image<Gray8> image, Point point)
         {
             for (var xOffset = 0; xOffset < 3; ++xOffset)
             {
@@ -242,7 +256,11 @@ namespace Puzzle
         /// </summary>
         /// <param name="neighbourDifferences">The baseline values.</param>
         /// <returns>The image signature.</returns>
-        public IEnumerable<LuminosityLevel> ComputeRelativeLuminosityLevels(IEnumerable<double> neighbourDifferences)
+        [Pure, NotNull]
+        private IEnumerable<LuminosityLevel> ComputeRelativeLuminosityLevels
+        (
+            [NotNull] IEnumerable<double> neighbourDifferences
+        )
         {
             var enumeratedDifferences = neighbourDifferences.ToList();
 
@@ -296,7 +314,8 @@ namespace Puzzle
         /// </summary>
         /// <param name="luminosityAverages">The sampled neighbours.</param>
         /// <returns>The value differences.</returns>
-        public IEnumerable<double> ComputeNeighbourDifferences(IReadOnlyList<double> luminosityAverages)
+        [Pure, NotNull]
+        private IEnumerable<double> ComputeNeighbourDifferences([NotNull] IReadOnlyList<double> luminosityAverages)
         {
             var neighbourCoordinateMap = new[]
             {

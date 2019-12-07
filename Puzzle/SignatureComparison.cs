@@ -23,12 +23,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace Puzzle
 {
     /// <summary>
     /// Computational class for comparing image signatures.
     /// </summary>
+    [PublicAPI]
     public static class SignatureComparison
     {
         /// <summary>
@@ -36,7 +38,8 @@ namespace Puzzle
         /// </summary>
         /// <param name="signature">The signature.</param>
         /// <returns>The euclidean length of the vector.</returns>
-        public static double EuclideanLength(this IEnumerable<sbyte> signature)
+        [Pure]
+        private static double EuclideanLength([NotNull] this IEnumerable<sbyte> signature)
         {
             return Math.Sqrt
             (
@@ -53,10 +56,11 @@ namespace Puzzle
         /// <param name="left">The left signature.</param>
         /// <param name="right">The right signature.</param>
         /// <returns>The subtracted signature.</returns>
-        public static IEnumerable<sbyte> Subtract
+        [Pure]
+        private static IEnumerable<sbyte> Subtract
         (
-            this IEnumerable<LuminosityLevel> left,
-            IEnumerable<LuminosityLevel> right
+            [NotNull] this IEnumerable<LuminosityLevel> left,
+            [NotNull] IEnumerable<LuminosityLevel> right
         )
         {
             var enumeratedLeft = left.ToList();
@@ -95,10 +99,11 @@ namespace Puzzle
         /// <param name="left">The left signature.</param>
         /// <param name="right">The right signature.</param>
         /// <returns>The normalized distance.</returns>
+        [Pure, PublicAPI]
         public static double NormalizedDistance
         (
-            this IEnumerable<LuminosityLevel> left,
-            IEnumerable<LuminosityLevel> right
+            [NotNull] this IEnumerable<LuminosityLevel> left,
+            [NotNull] IEnumerable<LuminosityLevel> right
         )
         {
             var enumeratedLeft = left.ToList();
@@ -124,11 +129,12 @@ namespace Puzzle
         /// </summary>
         /// <param name="left">The left signature.</param>
         /// <param name="right">The right signature.</param>
-        /// <returns>The similiarity.</returns>
+        /// <returns>The similarity.</returns>
+        [Pure]
         public static SignatureSimilarity CompareTo
         (
-            this IEnumerable<LuminosityLevel> left,
-            IEnumerable<LuminosityLevel> right
+            [NotNull] this IEnumerable<LuminosityLevel> left,
+            [NotNull] IEnumerable<LuminosityLevel> right
         )
         {
             var distance = left.NormalizedDistance(right);
