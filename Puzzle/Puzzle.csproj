@@ -14,9 +14,9 @@
         <Description>A C# implementation of libpuzzle (an image fingerprinting algorithm)</Description>
         <Copyright>Jarl Gullberg 2020</Copyright>
         <Company>Firwood Software</Company>
-        <Version>1.0.0</Version>
+        <Version>1.0.1</Version>
         <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
-        <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
+        <PackageReleaseNotes>Annotate library with JetBrains annotations.</PackageReleaseNotes>
         <PackageTags>images;comparison;copyright;signature;perceptual hash;phash;image;processing;puzzle</PackageTags>
         <IncludeSymbols>true</IncludeSymbols>
         <IncludeSource>true</IncludeSource>
@@ -44,10 +44,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="Puzzle.ExternalAnnotations.xml">
+        <Content Include="Puzzle.ExternalAnnotations.xml">
+            <Pack>true</Pack>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+            <PackagePath>lib/$(TargetFramework)</PackagePath>
             <InProject>false</InProject>
             <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
-        </AdditionalFiles>
+        </Content>
     </ItemGroup>
     <ItemGroup>
         <AdditionalFiles Include="FodyWeavers.xml">
