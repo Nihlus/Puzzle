@@ -18,6 +18,6 @@ dotnet build
 ``` 
 
 ## Installing
-Get it on [NuGet]() or compile from source.
+Get it on [NuGet](https://www.nuget.org/packages/Puzzle) or compile from source.
 
 ## 
