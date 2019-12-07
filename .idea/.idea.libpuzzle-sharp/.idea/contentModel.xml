@@ -26,14 +26,13 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp3.0" t="Include">
+            <e p="netstandard2.0" t="Include">
               <e p="Puzzle.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
         </e>
       </e>
       <e p="Puzzle.Tests" t="IncludeRecursive">
-        <e p="Experiments.cs" t="Include" />
         <e p="Puzzle.Tests.csproj" t="IncludeRecursive" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
