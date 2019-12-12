@@ -287,8 +287,8 @@ namespace Puzzle
                 }
             }
 
-            var muchDarkerCutoff = darks.Median();
-            var muchLighterCutoff = lights.Median();
+            var muchDarkerCutoff = darks.Count > 0 ? darks.Median() : -NoiseCutoff;
+            var muchLighterCutoff = lights.Count > 0 ? lights.Median() : NoiseCutoff;
 
             foreach (var difference in enumeratedDifferences)
             {
