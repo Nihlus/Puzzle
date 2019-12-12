@@ -14,9 +14,9 @@
         <Description>A C# implementation of libpuzzle (an image fingerprinting algorithm)</Description>
         <Copyright>Jarl Gullberg 2020</Copyright>
         <Company>Firwood Software</Company>
-        <Version>1.0.1</Version>
+        <Version>1.0.2</Version>
         <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
-        <PackageReleaseNotes>Annotate library with JetBrains annotations.</PackageReleaseNotes>
+        <PackageReleaseNotes>Fix an issue where a unicolour image would produce an exception.</PackageReleaseNotes>
         <PackageTags>images;comparison;copyright;signature;perceptual hash;phash;image;processing;puzzle</PackageTags>
         <IncludeSymbols>true</IncludeSymbols>
         <IncludeSource>true</IncludeSource>
@@ -57,11 +57,11 @@
             <InProject>false</InProject>
         </AdditionalFiles>
     </ItemGroup>
-    
+
     <ItemGroup>
         <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0007" />
     </ItemGroup>
-    
+
     <ItemGroup>
         <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" PrivateAssets="all" />
         <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.113" PrivateAssets="all" />
