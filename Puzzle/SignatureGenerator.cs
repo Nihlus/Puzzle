@@ -83,10 +83,10 @@ namespace Puzzle
             bool enableAutocrop = true
         )
         {
-            GridSize = gridSize;
-            NoiseCutoff = noiseCutoff;
-            SampleSizeRatio = sampleSizeRatio;
-            EnableAutocrop = enableAutocrop;
+            this.GridSize = gridSize;
+            this.NoiseCutoff = noiseCutoff;
+            this.SampleSizeRatio = sampleSizeRatio;
+            this.EnableAutocrop = enableAutocrop;
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Puzzle
             // Step 1.2: Convert the image to grayscale
             var grayscaleImage = opaqueImage.CloneAs<Gray8>();
 
-            if (EnableAutocrop)
+            if (this.EnableAutocrop)
             {
                 // Step 1.3: Crop the view to the relevant content
                 grayscaleImage = AutocropImage(grayscaleImage);
@@ -145,7 +145,7 @@ namespace Puzzle
             var squareSize = (int)Math.Max
             (
                 2.0,
-                Math.Round(Math.Min(image.Width, image.Height) / ((GridSize + 1) * SampleSizeRatio))
+                Math.Round(Math.Min(image.Width, image.Height) / ((this.GridSize + 1) * this.SampleSizeRatio))
             );
 
             var squareCenters = ComputeSquareCenters(image);
@@ -164,12 +164,12 @@ namespace Puzzle
         [Pure, NotNull]
         private IEnumerable<Point> ComputeSquareCenters([NotNull] Image<Gray8> image)
         {
-            var xOffset = image.Width / (double)(GridSize + 1);
-            var yOffset = image.Height / (double)(GridSize + 1);
+            var xOffset = image.Width / (double)(this.GridSize + 1);
+            var yOffset = image.Height / (double)(this.GridSize + 1);
 
-            for (var x = 0; x < GridSize; ++x)
+            for (var x = 0; x < this.GridSize; ++x)
             {
-                for (var y = 0; y < GridSize; ++y)
+                for (var y = 0; y < this.GridSize; ++y)
                 {
                     yield return new Point
                     {
@@ -269,30 +269,30 @@ namespace Puzzle
 
             foreach (var difference in enumeratedDifferences)
             {
-                if (difference >= -NoiseCutoff && difference <= NoiseCutoff)
+                if (difference >= -this.NoiseCutoff && difference <= this.NoiseCutoff)
                 {
                     // This difference is considered a samey value.
                     continue;
                 }
 
-                if (difference < NoiseCutoff)
+                if (difference < this.NoiseCutoff)
                 {
                     darks.Add(difference);
                     continue;
                 }
 
-                if (difference > NoiseCutoff)
+                if (difference > this.NoiseCutoff)
                 {
                     lights.Add(difference);
                 }
             }
 
-            var muchDarkerCutoff = darks.Count > 0 ? darks.Median() : -NoiseCutoff;
-            var muchLighterCutoff = lights.Count > 0 ? lights.Median() : NoiseCutoff;
+            var muchDarkerCutoff = darks.Count > 0 ? darks.Median() : -this.NoiseCutoff;
+            var muchLighterCutoff = lights.Count > 0 ? lights.Median() : this.NoiseCutoff;
 
             foreach (var difference in enumeratedDifferences)
             {
-                if (difference >= -NoiseCutoff && difference <= NoiseCutoff)
+                if (difference >= -this.NoiseCutoff && difference <= this.NoiseCutoff)
                 {
                     yield return LuminosityLevel.Same;
                     continue;
@@ -329,11 +329,11 @@ namespace Puzzle
                 new Point { X = 1, Y = 1 }
             };
 
-            for (var x = 0; x < GridSize; ++x)
+            for (var x = 0; x < this.GridSize; ++x)
             {
-                for (var y = 0; y < GridSize; ++y)
+                for (var y = 0; y < this.GridSize; ++y)
                 {
-                    var index = x + (GridSize * y);
+                    var index = x + (this.GridSize * y);
 
                     var baseLuminosity = luminosityAverages[(int)index];
 
@@ -346,7 +346,7 @@ namespace Puzzle
                             Y = y + neighbourCoordinateOffset.Y,
                         };
 
-                        var neighbourIndex = neighbourCoordinate.X + (GridSize * neighbourCoordinate.Y);
+                        var neighbourIndex = neighbourCoordinate.X + (this.GridSize * neighbourCoordinate.Y);
                         if (neighbourIndex < 0 || neighbourIndex >= luminosityAverages.Count)
                         {
                             yield return 0.0;
