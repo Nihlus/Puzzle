@@ -24,7 +24,7 @@ using Xunit;
 
 #pragma warning disable CS1591, SA1600
 
-namespace Puzzle.Tests.Tests.SignatureGenerator
+namespace Puzzle.Tests.Tests.SignatureGeneratorTests
 {
     public partial class SignatureGeneratorTests
     {
@@ -35,7 +35,7 @@ namespace Puzzle.Tests.Tests.SignatureGenerator
             {
                 uint expected = 10;
 
-                var generator = new Puzzle.SignatureGenerator(gridSize: expected);
+                var generator = new SignatureGenerator(gridSize: expected);
                 Assert.Equal(expected, generator.GridSize);
             }
 
@@ -44,7 +44,7 @@ namespace Puzzle.Tests.Tests.SignatureGenerator
             {
                 var expected = 20.0;
 
-                var generator = new Puzzle.SignatureGenerator(noiseCutoff: expected);
+                var generator = new SignatureGenerator(noiseCutoff: expected);
                 Assert.Equal(expected, generator.NoiseCutoff);
             }
 
@@ -53,17 +53,17 @@ namespace Puzzle.Tests.Tests.SignatureGenerator
             {
                 var expected = 30.0;
 
-                var generator = new Puzzle.SignatureGenerator(sampleSizeRatio: expected);
+                var generator = new SignatureGenerator(sampleSizeRatio: expected);
                 Assert.Equal(expected, generator.SampleSizeRatio);
             }
 
             [Fact]
             public void EnableAutocropParameterCorrectlySetsEnableAutocropProperty()
             {
-                var generator = new Puzzle.SignatureGenerator(enableAutocrop: false);
+                var generator = new SignatureGenerator(enableAutocrop: false);
                 Assert.False(generator.EnableAutocrop);
 
-                generator = new Puzzle.SignatureGenerator(enableAutocrop: true);
+                generator = new SignatureGenerator(enableAutocrop: true);
                 Assert.True(generator.EnableAutocrop);
             }
         }
