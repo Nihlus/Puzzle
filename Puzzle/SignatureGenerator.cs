@@ -26,6 +26,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using Puzzle.Extensions;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.Primitives;
@@ -243,7 +244,8 @@ namespace Puzzle
                         continue;
                     }
 
-                    yield return image[x, y];
+                    var row = image.GetPixelRowSpan(y);
+                    yield return row[x];
                 }
             }
         }
