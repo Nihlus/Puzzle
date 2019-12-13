@@ -77,6 +77,21 @@ namespace Puzzle.Tests.Data
         /// </summary>
         public static Lazy<Image> PhotoMona { get; } = GetLazyLoaderForImage("truth-lisa-photo.jpg");
 
+        /// <summary>
+        /// Gets an original Caravaggio painting.
+        /// </summary>
+        public static Lazy<Image> SaintMatthew { get; } = GetLazyLoaderForImage("saint-matthew.jpg");
+
+        /// <summary>
+        /// Gets an original Caravaggio painting.
+        /// </summary>
+        public static Lazy<Image> JudithBeheading { get; } = GetLazyLoaderForImage("judith-beheading.jpg");
+
+        /// <summary>
+        /// Gets an original Caravaggio painting.
+        /// </summary>
+        public static Lazy<Image> SickBacchus { get; } = GetLazyLoaderForImage("sick-bacchus.jpg");
+
         private static Lazy<Image> GetLazyLoaderForImage(string image)
         {
             return new Lazy<Image>
