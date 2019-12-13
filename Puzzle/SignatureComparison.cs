@@ -129,12 +129,26 @@ namespace Puzzle
         /// </summary>
         /// <param name="left">The left signature.</param>
         /// <param name="right">The right signature.</param>
+        /// <param name="sameThreshold">The threshold value for an image to be considered the same image. This typically
+        /// means that the image has been scaled, resized, has artifacts, or is distorted in some way.</param>
+        /// <param name="similarityThreshold">The threshold value for an image to be considered similar. This typically
+        /// means that the image has been somewhat altered (such as having been recoloured, slightly edited, or
+        /// watermarked). In testing, a value between 0.4 is usually a good fit.</param>
+        /// <param name="dissimilarThreshold">The threshold value for an image to be considered dissimilar. This
+        /// typically means that the image has been significantly altered, is of another character, or is transformed in
+        /// some way. In testing, a value of 0.48 is usually a good fit.</param>
+        /// <param name="differentThreshold">The threshold value for an image to be considered a different image. This
+        /// typically means that the images have little to do with each other.</param>
         /// <returns>The similarity.</returns>
         [Pure]
         public static SignatureSimilarity CompareTo
         (
             [NotNull] this IEnumerable<LuminosityLevel> left,
-            [NotNull] IEnumerable<LuminosityLevel> right
+            [NotNull] IEnumerable<LuminosityLevel> right,
+            double sameThreshold = 0.4,
+            double similarityThreshold = 0.48,
+            double dissimilarThreshold = 0.68,
+            double differentThreshold = 0.7
         )
         {
             var distance = left.NormalizedDistance(right);
@@ -142,9 +156,11 @@ namespace Puzzle
             switch (distance)
             {
                 case var value when value <= 0.0: return SignatureSimilarity.Identical;
-                case var value when value <= 0.5: return SignatureSimilarity.Similar;
-                case var value when value > 0.5:
-                default: return SignatureSimilarity.Dissimilar;
+                case var value when value <= sameThreshold: return SignatureSimilarity.Same;
+                case var value when value <= similarityThreshold: return SignatureSimilarity.Similar;
+                case var value when value <= dissimilarThreshold: return SignatureSimilarity.Dissimilar;
+                case var value when value <= differentThreshold: return SignatureSimilarity.Different;
+                default: return SignatureSimilarity.Different;
             }
         }
     }

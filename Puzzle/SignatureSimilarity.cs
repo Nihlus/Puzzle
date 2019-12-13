@@ -36,6 +36,11 @@ namespace Puzzle
         Identical,
 
         /// <summary>
+        /// The image is the same image.
+        /// </summary>
+        Same,
+
+        /// <summary>
         /// The images are similar.
         /// </summary>
         Similar,
@@ -43,6 +48,11 @@ namespace Puzzle
         /// <summary>
         /// The images are dissimilar.
         /// </summary>
-        Dissimilar
+        Dissimilar,
+
+        /// <summary>
+        /// The images are different images.
+        /// </summary>
+        Different
     }
 }
