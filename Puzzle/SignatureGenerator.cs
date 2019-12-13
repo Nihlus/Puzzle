@@ -99,19 +99,16 @@ namespace Puzzle
         public IEnumerable<LuminosityLevel> GenerateSignature([NotNull] Image image)
         {
             // Step 1: Generate a vector of double values representing the signature
-            // Step 1.1: Remove transparency
-            var opaqueImage = image.CloneAs<Rgb24>();
-
-            // Step 1.2: Convert the image to grayscale
-            var grayscaleImage = opaqueImage.CloneAs<Gray8>();
+            // Step 1.1: Remove transparency and convert image to grayscale
+            var grayscaleImage = image.CloneAs<Gray8>();
 
             if (this.EnableAutocrop)
             {
-                // Step 1.3: Crop the view to the relevant content
+                // Step 1.2: Crop the view to the relevant content
                 grayscaleImage = AutocropImage(grayscaleImage);
             }
 
-            // Step 1.4: Compute the average levels of points in the structure
+            // Step 1.3: Compute the average levels of points in the structure
             var sampledSquareAverages = ComputeAverageSampleLuminosities(grayscaleImage).ToList();
 
             var luminosityDifferences = ComputeNeighbourDifferences(sampledSquareAverages);
