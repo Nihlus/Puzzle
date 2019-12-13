@@ -26,6 +26,7 @@
 
     <ItemGroup>
         <EmbeddedResource Include="Images/*" />
+        <EmbeddedResource Include="Signatures/*" />
     </ItemGroup>
 
     <ItemGroup>
