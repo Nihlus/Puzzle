@@ -20,8 +20,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-using System.IO;
-using System.Linq;
 using Puzzle.Tests.Data;
 using Xunit;
 
