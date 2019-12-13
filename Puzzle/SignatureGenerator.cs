@@ -227,27 +227,31 @@ namespace Puzzle
         [Pure, NotNull]
         private IEnumerable<Gray8> Sample3x3Point([NotNull] Image<Gray8> image, Point point)
         {
-            for (var xOffset = 0; xOffset < 3; ++xOffset)
+            var samples = new List<Gray8>();
+            for (var yOffset = 0; yOffset < 3; ++yOffset)
             {
-                for (var yOffset = 0; yOffset < 3; ++yOffset)
+                var y = (point.Y - 1) + yOffset;
+
+                if (y > image.Height || y < 0)
+                {
+                    continue;
+                }
+
+                var row = image.GetPixelRowSpan(y);
+                for (var xOffset = 0; xOffset < 3; ++xOffset)
                 {
                     var x = (point.X - 1) + xOffset;
-                    var y = (point.Y - 1) + yOffset;
 
                     if (x > image.Width || x < 0)
                     {
                         continue;
                     }
 
-                    if (y > image.Height || y < 0)
-                    {
-                        continue;
-                    }
-
-                    var row = image.GetPixelRowSpan(y);
-                    yield return row[x];
+                    samples.Add(row[x]);
                 }
             }
+
+            return samples;
         }
 
         /// <summary>
