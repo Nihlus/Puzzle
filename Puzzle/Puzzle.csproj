@@ -14,9 +14,9 @@
         <Description>A C# implementation of libpuzzle (an image fingerprinting algorithm)</Description>
         <Copyright>Jarl Gullberg 2020</Copyright>
         <Company>Firwood Software</Company>
-        <Version>1.0.2</Version>
+        <Version>1.1.0</Version>
         <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
-        <PackageReleaseNotes>Fix an issue where a unicolour image would produce an exception.</PackageReleaseNotes>
+        <PackageReleaseNotes>Improve the granularity of the similiarity levels.</PackageReleaseNotes>
         <PackageTags>images;comparison;copyright;signature;perceptual hash;phash;image;processing;puzzle</PackageTags>
         <IncludeSymbols>true</IncludeSymbols>
         <IncludeSource>true</IncludeSource>
@@ -49,7 +49,7 @@
             <PackageCopyToOutput>true</PackageCopyToOutput>
             <PackagePath>lib/$(TargetFramework)</PackagePath>
             <InProject>false</InProject>
-            <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
     <ItemGroup>
