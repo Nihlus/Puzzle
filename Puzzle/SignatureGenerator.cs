@@ -195,16 +195,16 @@ namespace Puzzle
                 Y = (int)Math.Round(squareCenter.Y - (squareSize / 2.0))
             };
 
-            for (var x = squareCorner.X; x < squareCorner.X + squareSize; ++x)
+            for (var y = squareCorner.Y; y < squareCorner.Y + squareSize; ++y)
             {
-                for (var y = squareCorner.Y; y < squareCorner.Y + squareSize; ++y)
+                if (y > image.Height || y < 0)
+                {
+                    continue;
+                }
+
+                for (var x = squareCorner.X; x < squareCorner.X + squareSize; ++x)
                 {
                     if (x > image.Width || x < 0)
-                    {
-                        continue;
-                    }
-
-                    if (y > image.Height || y < 0)
                     {
                         continue;
                     }
