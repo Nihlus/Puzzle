@@ -266,7 +266,7 @@ namespace Puzzle
             {
                 var y = (point.Y - 1) + yOffset;
 
-                if (y > imageHeight || y < 0)
+                if (y > imageHeight - 1 || y < 0)
                 {
                     continue;
                 }
@@ -275,7 +275,7 @@ namespace Puzzle
                 {
                     var x = (point.X - 1) + xOffset;
 
-                    if (x > imageWidth || x < 0)
+                    if (x > imageWidth - 1 || x < 0)
                     {
                         continue;
                     }
