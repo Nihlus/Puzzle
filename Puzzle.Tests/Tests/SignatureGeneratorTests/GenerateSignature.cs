@@ -22,6 +22,7 @@
 
 using Puzzle.Tests.Data;
 using Puzzle.Tests.Extensions;
+using SixLabors.ImageSharp;
 using Xunit;
 
 #pragma warning disable CS1591, SA1600
@@ -46,6 +47,19 @@ namespace Puzzle.Tests.Tests.SignatureGeneratorTests
                 var actualSignature = _generator.GenerateSignature(SampleImages.MonaLisa.Value);
 
                 AssertExtensions.SequenceEqual(expectedSignature.Span, actualSignature);
+            }
+
+            [Theory]
+            [MemberData(nameof(SampleImages.SmallImages), MemberType = typeof(SampleImages))]
+            public void CanGenerateSignatureForSmallImages(Image smallImage)
+            {
+                var signature = _generator.GenerateSignature(smallImage);
+            }
+
+            [Fact]
+            public void CanGenerateSignatureForLargeImage()
+            {
+                var signature = _generator.GenerateSignature(SampleImages.Uniform8192x8192.Value);
             }
         }
     }
