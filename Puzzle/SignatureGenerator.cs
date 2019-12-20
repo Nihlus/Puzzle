@@ -308,9 +308,8 @@ namespace Puzzle
             var darks = new List<double>();
             var lights = new List<double>();
 
-            for (var i = 0; i < neighbourDifferences.Length; i++)
+            foreach (var difference in neighbourDifferences)
             {
-                var difference = neighbourDifferences[i];
                 if (difference >= -this.NoiseCutoff && difference <= this.NoiseCutoff)
                 {
                     // This difference is considered a samey value.
