@@ -268,7 +268,6 @@ namespace Puzzle
         private double Sample3x3Point(Span<Gray8> pixels, int imageWidth, int imageHeight, Point point)
         {
             var sum = 0.0;
-            var count = 0;
 
             for (var yOffset = 0; yOffset < 3; ++yOffset)
             {
@@ -285,22 +284,15 @@ namespace Puzzle
 
                     if (x > imageWidth - 1 || x < 0)
                     {
-                        ++count;
                         continue;
                     }
 
                     var spandex = x + (y * imageWidth);
                     sum += pixels[spandex].PackedValue;
-                    ++count;
                 }
             }
 
-            if (count == 0)
-            {
-                return 0.0;
-            }
-
-            return sum / count;
+            return sum / 9;
         }
 
         /// <summary>
