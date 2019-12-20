@@ -148,11 +148,20 @@ namespace Puzzle
 
             var squareCenters = ComputeSquareCenters(image).ToList();
 
+            var pixels = image.GetPixelSpan();
+
             Span<double> sampleLuminosities = new double[squareCenters.Count];
             for (var i = 0; i < squareCenters.Count; i++)
             {
                 var squareCenter = squareCenters[i];
-                sampleLuminosities[i] = ComputeSquareAverage(image, squareCenter, squareSize);
+                sampleLuminosities[i] = ComputeSquareAverage
+                (
+                    pixels,
+                    image.Width,
+                    image.Height,
+                    squareCenter,
+                    squareSize
+                );
             }
 
             return sampleLuminosities;
@@ -185,12 +194,21 @@ namespace Puzzle
         /// <summary>
         /// Computes the average gray level of a square in the image, centered at the given point, with the given size.
         /// </summary>
-        /// <param name="image">The image to sample.</param>
+        /// <param name="pixels">The image to sample.</param>
+        /// <param name="imageWidth">The width of the image.</param>
+        /// <param name="imageHeight">The height of the image.</param>
         /// <param name="squareCenter">The center of the square.</param>
         /// <param name="squareSize">The size of the square.</param>
         /// <returns>The average level of the square.</returns>
         [Pure]
-        private double ComputeSquareAverage([NotNull] Image<Gray8> image, Point squareCenter, int squareSize)
+        private double ComputeSquareAverage
+        (
+            Span<Gray8> pixels,
+            int imageWidth,
+            int imageHeight,
+            Point squareCenter,
+            int squareSize
+        )
         {
             var squareCorner = new Point
             {
@@ -203,19 +221,19 @@ namespace Puzzle
 
             for (var y = squareCorner.Y; y < squareCorner.Y + squareSize; ++y)
             {
-                if (y > image.Height || y < 0)
+                if (y > imageHeight || y < 0)
                 {
                     continue;
                 }
 
                 for (var x = squareCorner.X; x < squareCorner.X + squareSize; ++x)
                 {
-                    if (x > image.Width || x < 0)
+                    if (x > imageWidth || x < 0)
                     {
                         continue;
                     }
 
-                    values[spandex] = Sample3x3Point(image, new Point(x, y));
+                    values[spandex] = Sample3x3Point(pixels, imageWidth, imageHeight, new Point(x, y));
                     ++spandex;
                 }
             }
@@ -233,22 +251,22 @@ namespace Puzzle
         /// Samples the average luminosity of a 3x3 square, centered at the given coordinate. If any of the points of
         /// the square fall outside the image, no value is returned for that point.
         /// </summary>
-        /// <param name="image">The image to sample.</param>
+        /// <param name="pixels">The image to sample.</param>
+        /// <param name="imageWidth">The width of the image.</param>
+        /// <param name="imageHeight">The height of the image.</param>
         /// <param name="point">The center of the point to sample.</param>
         /// <returns>The sampled values.</returns>
         [Pure,]
-        private double Sample3x3Point([NotNull] Image<Gray8> image, Point point)
+        private double Sample3x3Point(Span<Gray8> pixels, int imageWidth, int imageHeight, Point point)
         {
             var sum = 0.0;
             var count = 0;
-
-            var pixelSpan = image.GetPixelSpan();
 
             for (var yOffset = 0; yOffset < 3; ++yOffset)
             {
                 var y = (point.Y - 1) + yOffset;
 
-                if (y > image.Height || y < 0)
+                if (y > imageHeight || y < 0)
                 {
                     continue;
                 }
@@ -257,13 +275,13 @@ namespace Puzzle
                 {
                     var x = (point.X - 1) + xOffset;
 
-                    if (x > image.Width || x < 0)
+                    if (x > imageWidth || x < 0)
                     {
                         continue;
                     }
 
-                    var spandex = x + (y * image.Width);
-                    sum += pixelSpan[spandex].PackedValue;
+                    var spandex = x + (y * imageWidth);
+                    sum += pixels[spandex].PackedValue;
                     ++count;
                 }
             }
