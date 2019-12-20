@@ -264,7 +264,7 @@ namespace Puzzle
         /// <param name="imageHeight">The height of the image.</param>
         /// <param name="point">The center of the point to sample.</param>
         /// <returns>The sampled values.</returns>
-        [Pure,]
+        [Pure]
         private double Sample3x3Point(Span<Gray8> pixels, int imageWidth, int imageHeight, Point point)
         {
             var sum = 0.0;
