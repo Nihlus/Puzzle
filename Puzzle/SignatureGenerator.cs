@@ -96,7 +96,7 @@ namespace Puzzle
         /// <param name="image">The image to generate the signature from.</param>
         /// <returns>The signature.</returns>
         [PublicAPI]
-        [Pure, NotNull]
+        [Pure]
         public ReadOnlySpan<LuminosityLevel> GenerateSignature([NotNull] Image image)
         {
             // Step 1: Generate a vector of double values representing the signature
@@ -263,7 +263,7 @@ namespace Puzzle
         /// </summary>
         /// <param name="neighbourDifferences">The baseline values.</param>
         /// <returns>The image signature.</returns>
-        [Pure, NotNull]
+        [Pure]
         private ReadOnlySpan<LuminosityLevel> ComputeRelativeLuminosityLevels
         (
             ReadOnlySpan<double> neighbourDifferences

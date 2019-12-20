@@ -63,7 +63,7 @@ namespace Puzzle.Tests.Tests.SignatureGeneratorTests
                 var generator = new SignatureGenerator(enableAutocrop: false);
                 Assert.False(generator.EnableAutocrop);
 
-                generator = new SignatureGenerator(enableAutocrop: true);
+                generator = new SignatureGenerator();
                 Assert.True(generator.EnableAutocrop);
             }
         }

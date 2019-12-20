@@ -40,12 +40,6 @@ namespace Puzzle.Tests.Tests.SignatureGeneratorTests
             }
 
             [Fact]
-            public void CanGenerateSignature()
-            {
-                var signature = _generator.GenerateSignature(SampleImages.MonaLisa.Value);
-            }
-
-            [Fact]
             public void GeneratedSignatureMatchesExpectedAlgorithmResults()
             {
                 var expectedSignature = SampleData.MonaLisaSignature.Value;
