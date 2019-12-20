@@ -22,6 +22,7 @@
 
 using Puzzle.Tests.Data;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Xunit;
 
@@ -116,7 +117,7 @@ namespace Puzzle.Tests.Tests.SignatureComparisonTests
 
             [Theory]
             [MemberData(nameof(SampleImages.RecolouredImages), MemberType = typeof(SampleImages))]
-            public void RecolouredImagesCompareAsSame(Image image)
+            public void RecolouredImagesCompareAsSame(Image<Gray8> image)
             {
                 var firstSignature = _generator.GenerateSignature(SampleImages.MonaLisa.Value);
                 var secondSignature = _generator.GenerateSignature(image);
@@ -128,7 +129,7 @@ namespace Puzzle.Tests.Tests.SignatureComparisonTests
 
             [Theory]
             [MemberData(nameof(SampleImages.SlightlyEditedImages), MemberType = typeof(SampleImages))]
-            public void SlightlyEditedImagesCompareAsSimilar(Image image)
+            public void SlightlyEditedImagesCompareAsSimilar(Image<Gray8> image)
             {
                 var firstSignature = _generator.GenerateSignature(SampleImages.MonaLisa.Value);
                 var secondSignature = _generator.GenerateSignature(image);
@@ -140,7 +141,7 @@ namespace Puzzle.Tests.Tests.SignatureComparisonTests
 
             [Theory]
             [MemberData(nameof(SampleImages.SignificantlyEditedImages), MemberType = typeof(SampleImages))]
-            public void SignificantlyEditedImagesCompareAsSimilar(Image image)
+            public void SignificantlyEditedImagesCompareAsSimilar(Image<Gray8> image)
             {
                 var firstSignature = _generator.GenerateSignature(SampleImages.MonaLisa.Value);
                 var secondSignature = _generator.GenerateSignature(image);
@@ -152,7 +153,7 @@ namespace Puzzle.Tests.Tests.SignatureComparisonTests
 
             [Theory]
             [MemberData(nameof(SampleImages.StylizedCopies), MemberType = typeof(SampleImages))]
-            public void StylizedCopiesCompareAsDissimilar(Image image)
+            public void StylizedCopiesCompareAsDissimilar(Image<Gray8> image)
             {
                 var firstSignature = _generator.GenerateSignature(SampleImages.MonaLisa.Value);
                 var secondSignature = _generator.GenerateSignature(image);
@@ -164,7 +165,7 @@ namespace Puzzle.Tests.Tests.SignatureComparisonTests
 
             [Theory]
             [MemberData(nameof(SampleImages.Photos), MemberType = typeof(SampleImages))]
-            public void ArrangedPhotoCopiesCompareAsDissimilar(Image image)
+            public void ArrangedPhotoCopiesCompareAsDissimilar(Image<Gray8> image)
             {
                 var firstSignature = _generator.GenerateSignature(SampleImages.MonaLisa.Value);
                 var secondSignature = _generator.GenerateSignature(image);
@@ -176,7 +177,7 @@ namespace Puzzle.Tests.Tests.SignatureComparisonTests
 
             [Theory]
             [MemberData(nameof(SampleImages.DifferentImages), MemberType = typeof(SampleImages))]
-            public void DifferentImagesCompareAsDifferent(Image image)
+            public void DifferentImagesCompareAsDifferent(Image<Gray8> image)
             {
                 var firstSignature = _generator.GenerateSignature(SampleImages.MonaLisa.Value);
                 var secondSignature = _generator.GenerateSignature(image);

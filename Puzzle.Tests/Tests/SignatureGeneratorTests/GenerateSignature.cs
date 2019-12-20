@@ -23,6 +23,7 @@
 using Puzzle.Tests.Data;
 using Puzzle.Tests.Extensions;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using Xunit;
 
 #pragma warning disable CS1591, SA1600
@@ -51,7 +52,7 @@ namespace Puzzle.Tests.Tests.SignatureGeneratorTests
 
             [Theory]
             [MemberData(nameof(SampleImages.SmallImages), MemberType = typeof(SampleImages))]
-            public void CanGenerateSignatureForSmallImages(Image smallImage)
+            public void CanGenerateSignatureForSmallImages(Image<Gray8> smallImage)
             {
                 var signature = _generator.GenerateSignature(smallImage);
             }

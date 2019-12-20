@@ -91,26 +91,33 @@ namespace Puzzle
         }
 
         /// <summary>
+        /// Generates a signature from the given image. This overload copies the image once.
+        /// </summary>
+        /// <param name="image">The image to generate the signature from.</param>
+        /// <returns>The signature.</returns>
+        [PublicAPI]
+        [Pure]
+        public ReadOnlySpan<LuminosityLevel> GenerateSignature([NotNull] Image image) =>
+            GenerateSignature(image.CloneAs<Gray8>());
+
+        /// <summary>
         /// Generates a signature from the given image.
         /// </summary>
         /// <param name="image">The image to generate the signature from.</param>
         /// <returns>The signature.</returns>
         [PublicAPI]
         [Pure]
-        public ReadOnlySpan<LuminosityLevel> GenerateSignature([NotNull] Image image)
+        public ReadOnlySpan<LuminosityLevel> GenerateSignature([NotNull] Image<Gray8> image)
         {
             // Step 1: Generate a vector of double values representing the signature
-            // Step 1.1: Remove transparency and convert image to grayscale
-            var grayscaleImage = image.CloneAs<Gray8>();
-
             if (this.EnableAutocrop)
             {
-                // Step 1.2: Crop the view to the relevant content
-                grayscaleImage = AutocropImage(grayscaleImage);
+                // Step 1.1: Crop the view to the relevant content
+                image = AutocropImage(image);
             }
 
-            // Step 1.3: Compute the average levels of points in the structure
-            var sampledSquareAverages = ComputeAverageSampleLuminosities(grayscaleImage);
+            // Step 1.2: Compute the average levels of points in the structure
+            var sampledSquareAverages = ComputeAverageSampleLuminosities(image);
 
             var luminosityDifferences = ComputeNeighbourDifferences(sampledSquareAverages);
 
