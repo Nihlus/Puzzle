@@ -340,6 +340,7 @@ namespace Puzzle
             };
 
             Span<double> neighbourDifferences = new double[this.GridSize * this.GridSize * 8];
+            var spandex = 0;
 
             for (var x = 0; x < this.GridSize; ++x)
             {
@@ -361,12 +362,14 @@ namespace Puzzle
                         var neighbourIndex = neighbourCoordinate.X + (this.GridSize * neighbourCoordinate.Y);
                         if (neighbourIndex < 0 || neighbourIndex >= luminosityAverages.Length)
                         {
-                            neighbourDifferences[(int)(index + i)] = 0.0;
+                            neighbourDifferences[spandex] = 0.0;
                         }
                         else
                         {
-                            neighbourDifferences[(int)(index + i)] = baseLuminosity - luminosityAverages[(int)neighbourIndex];
+                            neighbourDifferences[spandex] = baseLuminosity - luminosityAverages[(int)neighbourIndex];
                         }
+
+                        ++spandex;
                     }
                 }
             }
