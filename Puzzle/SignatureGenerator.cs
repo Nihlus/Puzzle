@@ -388,14 +388,14 @@ namespace Puzzle
 
                     for (var i = 0; i < 8; ++i)
                     {
-                        var neighbourCoordinateOffset = neighbourCoordinateMap[i];
-                        var neighbourCoordinate = new Point
+                        var (tileX, tileY) = neighbourCoordinateMap[i];
+                        var (neighbourX, neighbourY) = new Point
                         {
-                            X = x + neighbourCoordinateOffset.X,
-                            Y = y + neighbourCoordinateOffset.Y,
+                            X = x + tileX,
+                            Y = y + tileY,
                         };
 
-                        var neighbourIndex = neighbourCoordinate.X + (this.GridSize * neighbourCoordinate.Y);
+                        var neighbourIndex = neighbourX + (this.GridSize * neighbourY);
                         if (neighbourIndex < 0 || neighbourIndex >= luminosityAverages.Length)
                         {
                             neighbourDifferences[spandex] = 0.0;
