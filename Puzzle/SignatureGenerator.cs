@@ -198,7 +198,7 @@ namespace Puzzle
                 Y = (int)Math.Round(squareCenter.Y - (squareSize / 2.0))
             };
 
-            Span<double> values = new double[squareSize * squareSize];
+            Span<double> values = stackalloc double[squareSize * squareSize];
             var spandex = 0;
 
             for (var y = squareCorner.Y; y < squareCorner.Y + squareSize; ++y)
