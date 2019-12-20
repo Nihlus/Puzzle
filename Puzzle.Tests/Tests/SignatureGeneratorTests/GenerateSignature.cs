@@ -21,6 +21,7 @@
 //
 
 using Puzzle.Tests.Data;
+using Puzzle.Tests.Extensions;
 using Xunit;
 
 #pragma warning disable CS1591, SA1600
@@ -50,7 +51,7 @@ namespace Puzzle.Tests.Tests.SignatureGeneratorTests
                 var expectedSignature = SampleData.MonaLisaSignature.Value;
                 var actualSignature = _generator.GenerateSignature(SampleImages.MonaLisa.Value);
 
-                Assert.Equal(expectedSignature, actualSignature);
+                AssertExtensions.SequenceEqual(expectedSignature.Span, actualSignature);
             }
         }
     }

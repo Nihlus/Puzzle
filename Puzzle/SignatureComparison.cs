@@ -23,6 +23,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 
 namespace Puzzle
@@ -39,15 +41,15 @@ namespace Puzzle
         /// <param name="signature">The signature.</param>
         /// <returns>The euclidean length of the vector.</returns>
         [Pure]
-        private static double EuclideanLength([NotNull] this IEnumerable<sbyte> signature)
+        private static double EuclideanLength(this ReadOnlySpan<sbyte> signature)
         {
-            return Math.Sqrt
-            (
-                signature.Sum
-                (
-                    l => Math.Pow(l, 2)
-                )
-            );
+            var sum = 0.0;
+            foreach (var val in signature)
+            {
+                sum += Math.Pow(val, 2);
+            }
+
+            return Math.Sqrt(sum);
         }
 
         /// <summary>
@@ -57,40 +59,41 @@ namespace Puzzle
         /// <param name="right">The right signature.</param>
         /// <returns>The subtracted signature.</returns>
         [Pure]
-        private static IEnumerable<sbyte> Subtract
+        private static ReadOnlySpan<sbyte> Subtract
         (
-            [NotNull] this IEnumerable<LuminosityLevel> left,
-            [NotNull] IEnumerable<LuminosityLevel> right
+            this ReadOnlySpan<LuminosityLevel> left,
+            ReadOnlySpan<LuminosityLevel> right
         )
         {
-            var enumeratedLeft = left.ToList();
-            var enumeratedRight = right.ToList();
+            Span<sbyte> result = new sbyte[left.Length];
 
-            for (var i = 0; i < enumeratedLeft.Count; ++i)
+            for (var i = 0; i < left.Length; ++i)
             {
-                var leftValue = (sbyte)enumeratedLeft[i];
+                var leftValue = (sbyte)left[i];
 
-                if (i >= enumeratedRight.Count)
+                if (i >= right.Length)
                 {
-                    yield return leftValue;
+                    result[i] = leftValue;
                     continue;
                 }
 
-                var rightValue = (sbyte)enumeratedRight[i];
+                var rightValue = (sbyte)right[i];
                 if ((leftValue == 0 && rightValue == -2) || (leftValue == -2 && rightValue == 0))
                 {
-                    yield return -3;
+                    result[i] = -3;
                     continue;
                 }
 
                 if ((leftValue == 0 && rightValue == 2) || (leftValue == 2 && rightValue == 0))
                 {
-                    yield return 3;
+                    result[i] = 3;
                     continue;
                 }
 
-                yield return (sbyte)(leftValue - rightValue);
+                result[i] = (sbyte)(leftValue - rightValue);
             }
+
+            return result;
         }
 
         /// <summary>
@@ -102,18 +105,15 @@ namespace Puzzle
         [Pure, PublicAPI]
         public static double NormalizedDistance
         (
-            [NotNull] this IEnumerable<LuminosityLevel> left,
-            [NotNull] IEnumerable<LuminosityLevel> right
+            this ReadOnlySpan<LuminosityLevel> left,
+            ReadOnlySpan<LuminosityLevel> right
         )
         {
-            var enumeratedLeft = left.ToList();
-            var enumeratedRight = right.ToList();
-
-            var subtractedVectors = enumeratedLeft.Subtract(enumeratedRight);
+            var subtractedVectors = left.Subtract(right);
             var subtractedLength = subtractedVectors.EuclideanLength();
 
-            var combinedLength = enumeratedLeft.Cast<sbyte>().EuclideanLength() +
-                                 enumeratedRight.Cast<sbyte>().EuclideanLength();
+            var combinedLength = MemoryMarshal.Cast<LuminosityLevel, sbyte>(left).EuclideanLength() +
+                                 MemoryMarshal.Cast<LuminosityLevel, sbyte>(right).EuclideanLength();
 
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (combinedLength == 0.0)
@@ -143,8 +143,8 @@ namespace Puzzle
         [Pure]
         public static SignatureSimilarity CompareTo
         (
-            [NotNull] this IEnumerable<LuminosityLevel> left,
-            [NotNull] IEnumerable<LuminosityLevel> right,
+            this ReadOnlySpan<LuminosityLevel> left,
+            ReadOnlySpan<LuminosityLevel> right,
             double sameThreshold = 0.4,
             double similarityThreshold = 0.48,
             double dissimilarThreshold = 0.68,

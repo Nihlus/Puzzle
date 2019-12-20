@@ -37,12 +37,12 @@ namespace Puzzle.Tests.Data
         /// <summary>
         /// Gets the canonical Mona Lisa image signature.
         /// </summary>
-        public static Lazy<IEnumerable<LuminosityLevel>> MonaLisaSignature { get; } =
+        public static Lazy<ReadOnlyMemory<LuminosityLevel>> MonaLisaSignature { get; } =
             GetLazyLoaderForSignature("original-mona.signature");
 
-        private static Lazy<IEnumerable<LuminosityLevel>> GetLazyLoaderForSignature(string name)
+        private static Lazy<ReadOnlyMemory<LuminosityLevel>> GetLazyLoaderForSignature(string name)
         {
-            return new Lazy<IEnumerable<LuminosityLevel>>
+            return new Lazy<ReadOnlyMemory<LuminosityLevel>>
             (
                 () =>
                 {
@@ -52,7 +52,10 @@ namespace Puzzle.Tests.Data
 
                     using var reader = new BinaryReader(resourceStream);
 
-                    return reader.ReadBytes((int)reader.BaseStream.Length).Select(b => (LuminosityLevel)b);
+                    return new ReadOnlyMemory<LuminosityLevel>
+                    (
+                        reader.ReadBytes((int)reader.BaseStream.Length).Select(b => (LuminosityLevel)b).ToArray()
+                    );
                 },
                 LazyThreadSafetyMode.ExecutionAndPublication
             );

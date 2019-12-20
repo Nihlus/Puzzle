@@ -97,7 +97,7 @@ namespace Puzzle
         /// <returns>The signature.</returns>
         [PublicAPI]
         [Pure, NotNull]
-        public IEnumerable<LuminosityLevel> GenerateSignature([NotNull] Image image)
+        public ReadOnlySpan<LuminosityLevel> GenerateSignature([NotNull] Image image)
         {
             // Step 1: Generate a vector of double values representing the signature
             // Step 1.1: Remove transparency and convert image to grayscale
@@ -110,7 +110,7 @@ namespace Puzzle
             }
 
             // Step 1.3: Compute the average levels of points in the structure
-            var sampledSquareAverages = ComputeAverageSampleLuminosities(grayscaleImage).ToList();
+            var sampledSquareAverages = ComputeAverageSampleLuminosities(grayscaleImage);
 
             var luminosityDifferences = ComputeNeighbourDifferences(sampledSquareAverages);
 
@@ -137,8 +137,8 @@ namespace Puzzle
         /// </summary>
         /// <param name="image">The image to compute the points of.</param>
         /// <returns>The computed points.</returns>
-        [Pure, NotNull]
-        private IEnumerable<double> ComputeAverageSampleLuminosities([NotNull] Image<Gray8> image)
+        [Pure]
+        private ReadOnlySpan<double> ComputeAverageSampleLuminosities([NotNull] Image<Gray8> image)
         {
             var squareSize = (int)Math.Max
             (
@@ -146,12 +146,16 @@ namespace Puzzle
                 Math.Round(Math.Min(image.Width, image.Height) / ((this.GridSize + 1) * this.SampleSizeRatio))
             );
 
-            var squareCenters = ComputeSquareCenters(image);
+            var squareCenters = ComputeSquareCenters(image).ToList();
 
-            foreach (var squareCenter in squareCenters)
+            Span<double> sampleLuminosities = new double[squareCenters.Count];
+            for (var i = 0; i < squareCenters.Count; i++)
             {
-                yield return ComputeSquareAverage(image, squareCenter, squareSize);
+                var squareCenter = squareCenters[i];
+                sampleLuminosities[i] = ComputeSquareAverage(image, squareCenter, squareSize);
             }
+
+            return sampleLuminosities;
         }
 
         /// <summary>
@@ -260,18 +264,17 @@ namespace Puzzle
         /// <param name="neighbourDifferences">The baseline values.</param>
         /// <returns>The image signature.</returns>
         [Pure, NotNull]
-        private IEnumerable<LuminosityLevel> ComputeRelativeLuminosityLevels
+        private ReadOnlySpan<LuminosityLevel> ComputeRelativeLuminosityLevels
         (
-            [NotNull] IEnumerable<double> neighbourDifferences
+            ReadOnlySpan<double> neighbourDifferences
         )
         {
-            var enumeratedDifferences = neighbourDifferences.ToList();
-
             var darks = new List<double>();
             var lights = new List<double>();
 
-            foreach (var difference in enumeratedDifferences)
+            for (var i = 0; i < neighbourDifferences.Length; i++)
             {
+                var difference = neighbourDifferences[i];
                 if (difference >= -this.NoiseCutoff && difference <= this.NoiseCutoff)
                 {
                     // This difference is considered a samey value.
@@ -293,22 +296,26 @@ namespace Puzzle
             var muchDarkerCutoff = darks.Count > 0 ? darks.Median() : -this.NoiseCutoff;
             var muchLighterCutoff = lights.Count > 0 ? lights.Median() : this.NoiseCutoff;
 
-            foreach (var difference in enumeratedDifferences)
+            Span<LuminosityLevel> luminosityLevels = new LuminosityLevel[neighbourDifferences.Length];
+            for (var i = 0; i < neighbourDifferences.Length; i++)
             {
+                var difference = neighbourDifferences[i];
                 if (difference >= -this.NoiseCutoff && difference <= this.NoiseCutoff)
                 {
-                    yield return LuminosityLevel.Same;
+                    luminosityLevels[i] = LuminosityLevel.Same;
                     continue;
                 }
 
                 if (difference < 0.0)
                 {
-                    yield return difference < muchDarkerCutoff ? LuminosityLevel.MuchDarker : LuminosityLevel.Darker;
+                    luminosityLevels[i] = difference < muchDarkerCutoff ? LuminosityLevel.MuchDarker : LuminosityLevel.Darker;
                     continue;
                 }
 
-                yield return difference > muchLighterCutoff ? LuminosityLevel.MuchLighter : LuminosityLevel.Lighter;
+                luminosityLevels[i] = difference > muchLighterCutoff ? LuminosityLevel.MuchLighter : LuminosityLevel.Lighter;
             }
+
+            return luminosityLevels;
         }
 
         /// <summary>
@@ -317,8 +324,8 @@ namespace Puzzle
         /// </summary>
         /// <param name="luminosityAverages">The sampled neighbours.</param>
         /// <returns>The value differences.</returns>
-        [Pure, NotNull]
-        private IEnumerable<double> ComputeNeighbourDifferences([NotNull] IReadOnlyList<double> luminosityAverages)
+        [Pure]
+        private ReadOnlySpan<double> ComputeNeighbourDifferences(ReadOnlySpan<double> luminosityAverages)
         {
             var neighbourCoordinateMap = new[]
             {
@@ -331,6 +338,8 @@ namespace Puzzle
                 new Point { X = 0, Y = 1 },
                 new Point { X = 1, Y = 1 }
             };
+
+            Span<double> neighbourDifferences = new double[this.GridSize * this.GridSize * 8];
 
             for (var x = 0; x < this.GridSize; ++x)
             {
@@ -350,17 +359,19 @@ namespace Puzzle
                         };
 
                         var neighbourIndex = neighbourCoordinate.X + (this.GridSize * neighbourCoordinate.Y);
-                        if (neighbourIndex < 0 || neighbourIndex >= luminosityAverages.Count)
+                        if (neighbourIndex < 0 || neighbourIndex >= luminosityAverages.Length)
                         {
-                            yield return 0.0;
+                            neighbourDifferences[(int)(index + i)] = 0.0;
                         }
                         else
                         {
-                            yield return baseLuminosity - luminosityAverages[(int)neighbourIndex];
+                            neighbourDifferences[(int)(index + i)] = baseLuminosity - luminosityAverages[(int)neighbourIndex];
                         }
                     }
                 }
             }
+
+            return neighbourDifferences;
         }
     }
 }
