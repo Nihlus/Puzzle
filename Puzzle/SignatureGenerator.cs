@@ -215,8 +215,7 @@ namespace Puzzle
                         continue;
                     }
 
-                    var samples = Sample3x3Point(image, new Point(x, y));
-                    values[spandex] = samples.Average(c => c.PackedValue);
+                    values[spandex] = Sample3x3Point(image, new Point(x, y));
                     ++spandex;
                 }
             }
@@ -231,16 +230,20 @@ namespace Puzzle
         }
 
         /// <summary>
-        /// Samples a 3x3 square, centered at the given coordinate. If any of the points of the square fall outside the
-        /// image, no value is returned for that point.
+        /// Samples the average luminosity of a 3x3 square, centered at the given coordinate. If any of the points of
+        /// the square fall outside the image, no value is returned for that point.
         /// </summary>
         /// <param name="image">The image to sample.</param>
         /// <param name="point">The center of the point to sample.</param>
         /// <returns>The sampled values.</returns>
-        [Pure, NotNull]
-        private IEnumerable<Gray8> Sample3x3Point([NotNull] Image<Gray8> image, Point point)
+        [Pure,]
+        private double Sample3x3Point([NotNull] Image<Gray8> image, Point point)
         {
-            var samples = new List<Gray8>();
+            var sum = 0.0;
+            var count = 0;
+
+            var pixelSpan = image.GetPixelSpan();
+
             for (var yOffset = 0; yOffset < 3; ++yOffset)
             {
                 var y = (point.Y - 1) + yOffset;
@@ -250,7 +253,6 @@ namespace Puzzle
                     continue;
                 }
 
-                var row = image.GetPixelRowSpan(y);
                 for (var xOffset = 0; xOffset < 3; ++xOffset)
                 {
                     var x = (point.X - 1) + xOffset;
@@ -260,11 +262,18 @@ namespace Puzzle
                         continue;
                     }
 
-                    samples.Add(row[x]);
+                    var spandex = x + (y * image.Width);
+                    sum += pixelSpan[spandex].PackedValue;
+                    ++count;
                 }
             }
 
-            return samples;
+            if (count == 0)
+            {
+                return 0.0;
+            }
+
+            return sum / count;
         }
 
         /// <summary>
