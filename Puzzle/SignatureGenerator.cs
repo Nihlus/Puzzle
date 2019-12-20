@@ -192,12 +192,14 @@ namespace Puzzle
         [Pure]
         private double ComputeSquareAverage([NotNull] Image<Gray8> image, Point squareCenter, int squareSize)
         {
-            var values = new List<double>();
             var squareCorner = new Point
             {
                 X = (int)Math.Round(squareCenter.X - (squareSize / 2.0)),
                 Y = (int)Math.Round(squareCenter.Y - (squareSize / 2.0))
             };
+
+            Span<double> values = new double[squareSize * squareSize];
+            var spandex = 0;
 
             for (var y = squareCorner.Y; y < squareCorner.Y + squareSize; ++y)
             {
@@ -214,11 +216,18 @@ namespace Puzzle
                     }
 
                     var samples = Sample3x3Point(image, new Point(x, y));
-                    values.Add(samples.Average(c => c.PackedValue));
+                    values[spandex] = samples.Average(c => c.PackedValue);
+                    ++spandex;
                 }
             }
 
-            return values.Average();
+            var sum = 0.0;
+            foreach (var value in values)
+            {
+                sum += value;
+            }
+
+            return sum / values.Length;
         }
 
         /// <summary>
