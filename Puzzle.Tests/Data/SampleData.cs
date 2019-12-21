@@ -49,6 +49,15 @@ namespace Puzzle.Tests.Data
                         .GetExecutingAssembly()
                         .GetManifestResourceStream($"Puzzle.Tests.Signatures.{name}");
 
+                    if (resourceStream is null)
+                    {
+                        throw new FileNotFoundException
+                        (
+                            "Couldn't find the requested resource.",
+                            $"Puzzle.Tests.Signatures.{name}"
+                        );
+                    }
+
                     using var reader = new BinaryReader(resourceStream);
 
                     return new ReadOnlyMemory<LuminosityLevel>
