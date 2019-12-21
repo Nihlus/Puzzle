@@ -210,7 +210,7 @@ namespace Puzzle
         [Pure]
         private double ComputeSquareAverage
         (
-            Span<Gray8> pixels,
+            ReadOnlySpan<Gray8> pixels,
             int imageWidth,
             int imageHeight,
             Point squareCenter,
@@ -264,7 +264,7 @@ namespace Puzzle
         /// <param name="point">The center of the point to sample.</param>
         /// <returns>The sampled values.</returns>
         [Pure]
-        private double Sample3x3Point(Span<Gray8> pixels, int imageWidth, int imageHeight, Point point)
+        private double Sample3x3Point(ReadOnlySpan<Gray8> pixels, int imageWidth, int imageHeight, Point point)
         {
             var sum = 0.0;
 
