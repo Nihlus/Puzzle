@@ -60,7 +60,7 @@ namespace Puzzle.Tests.Tests.SignatureGeneratorTests
             [Fact]
             public void CanGenerateSignatureForLargeImage()
             {
-                var signature = _generator.GenerateSignature(SampleImages.Uniform8192x8192.Value);
+                var signature = _generator.GenerateSignature(SampleImages.Uniform8192.Value);
             }
         }
     }

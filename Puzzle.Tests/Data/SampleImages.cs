@@ -118,11 +118,11 @@ namespace Puzzle.Tests.Data
         {
             get
             {
-                yield return new object[] { Uniform1x1.Value };
-                yield return new object[] { Uniform2x2.Value };
-                yield return new object[] { Uniform4x4.Value };
-                yield return new object[] { Uniform8x8.Value };
-                yield return new object[] { Uniform16x16.Value };
+                yield return new object[] { Uniform1.Value };
+                yield return new object[] { Uniform2.Value };
+                yield return new object[] { Uniform4.Value };
+                yield return new object[] { Uniform8.Value };
+                yield return new object[] { Uniform16.Value };
             }
         }
 
@@ -219,32 +219,32 @@ namespace Puzzle.Tests.Data
         /// <summary>
         /// Gets a single-colour 1x1 image.
         /// </summary>
-        public static Lazy<Image<Gray8>> Uniform1x1 { get; } = GetLazyLoaderForImage("1x1.png");
+        public static Lazy<Image<Gray8>> Uniform1 { get; } = GetLazyLoaderForImage("1x1.png");
 
         /// <summary>
         /// Gets a single-colour 2x2 image.
         /// </summary>
-        public static Lazy<Image<Gray8>> Uniform2x2 { get; } = GetLazyLoaderForImage("2x2.png");
+        public static Lazy<Image<Gray8>> Uniform2 { get; } = GetLazyLoaderForImage("2x2.png");
 
         /// <summary>
         /// Gets a single-colour 4x4 image.
         /// </summary>
-        public static Lazy<Image<Gray8>> Uniform4x4 { get; } = GetLazyLoaderForImage("4x4.png");
+        public static Lazy<Image<Gray8>> Uniform4 { get; } = GetLazyLoaderForImage("4x4.png");
 
         /// <summary>
         /// Gets a single-colour 8x8 image.
         /// </summary>
-        public static Lazy<Image<Gray8>> Uniform8x8 { get; } = GetLazyLoaderForImage("8x8.png");
+        public static Lazy<Image<Gray8>> Uniform8 { get; } = GetLazyLoaderForImage("8x8.png");
 
         /// <summary>
         /// Gets a single-colour 16x16 image.
         /// </summary>
-        public static Lazy<Image<Gray8>> Uniform16x16 { get; } = GetLazyLoaderForImage("16x16.png");
+        public static Lazy<Image<Gray8>> Uniform16 { get; } = GetLazyLoaderForImage("16x16.png");
 
         /// <summary>
         /// Gets a single-colour 8k image.
         /// </summary>
-        public static Lazy<Image<Gray8>> Uniform8192x8192 { get; } = GetLazyLoaderForImage("8192x8192.png");
+        public static Lazy<Image<Gray8>> Uniform8192 { get; } = GetLazyLoaderForImage("8192x8192.png");
 
         private static Lazy<Image<Gray8>> GetLazyLoaderForImage(string image)
         {
