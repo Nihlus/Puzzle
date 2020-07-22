@@ -52,7 +52,7 @@ namespace Puzzle.Tests.Tests.SignatureGeneratorTests
 
             [Theory]
             [MemberData(nameof(SampleImages.SmallImages), MemberType = typeof(SampleImages))]
-            public void CanGenerateSignatureForSmallImages(Image<Gray8> smallImage)
+            public void CanGenerateSignatureForSmallImages(Image<L8> smallImage)
             {
                 var signature = _generator.GenerateSignature(smallImage);
             }

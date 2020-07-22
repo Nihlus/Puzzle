@@ -129,126 +129,126 @@ namespace Puzzle.Tests.Data
         /// <summary>
         /// Gets the canonical Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> MonaLisa { get; } = GetLazyLoaderForImage("original-mona.jpg");
+        public static Lazy<Image<L8>> MonaLisa { get; } = GetLazyLoaderForImage("original-mona.jpg");
 
         /// <summary>
         /// Gets an edited Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> GangstaMona { get; } = GetLazyLoaderForImage("gangsta-mona.jpg");
+        public static Lazy<Image<L8>> GangstaMona { get; } = GetLazyLoaderForImage("gangsta-mona.jpg");
 
         /// <summary>
         /// Gets an edited Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> BritneySpearsMona { get; } = GetLazyLoaderForImage("lisa-spears.jpg");
+        public static Lazy<Image<L8>> BritneySpearsMona { get; } = GetLazyLoaderForImage("lisa-spears.jpg");
 
         /// <summary>
         /// Gets an edited Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> Lisa9 { get; } = GetLazyLoaderForImage("lisa9.jpg");
+        public static Lazy<Image<L8>> Lisa9 { get; } = GetLazyLoaderForImage("lisa9.jpg");
 
         /// <summary>
         /// Gets a stylized Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> HorrorMona { get; } = GetLazyLoaderForImage("mona-horror.jpg");
+        public static Lazy<Image<L8>> HorrorMona { get; } = GetLazyLoaderForImage("mona-horror.jpg");
 
         /// <summary>
         /// Gets a stylized Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> MonaLizzle { get; } = GetLazyLoaderForImage("mona-lizzle.jpg");
+        public static Lazy<Image<L8>> MonaLizzle { get; } = GetLazyLoaderForImage("mona-lizzle.jpg");
 
         /// <summary>
         /// Gets a stylized Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> PointilistMona { get; } = GetLazyLoaderForImage("pointilist-mona.jpg");
+        public static Lazy<Image<L8>> PointilistMona { get; } = GetLazyLoaderForImage("pointilist-mona.jpg");
 
         /// <summary>
         /// Gets an edited Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> ChromaticMona { get; } = GetLazyLoaderForImage("truth-lisa-chromatic.jpg");
+        public static Lazy<Image<L8>> ChromaticMona { get; } = GetLazyLoaderForImage("truth-lisa-chromatic.jpg");
 
         /// <summary>
         /// Gets a real-life photograph Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> PhotoMona { get; } = GetLazyLoaderForImage("truth-lisa-photo.jpg");
+        public static Lazy<Image<L8>> PhotoMona { get; } = GetLazyLoaderForImage("truth-lisa-photo.jpg");
 
         /// <summary>
         /// Gets a recoloured Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> BlueMona { get; } = GetLazyLoaderForImage("recoloured-mona-blue.jpg");
+        public static Lazy<Image<L8>> BlueMona { get; } = GetLazyLoaderForImage("recoloured-mona-blue.jpg");
 
         /// <summary>
         /// Gets a recoloured Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> CyanMona { get; } = GetLazyLoaderForImage("recoloured-mona-cyan.jpg");
+        public static Lazy<Image<L8>> CyanMona { get; } = GetLazyLoaderForImage("recoloured-mona-cyan.jpg");
 
         /// <summary>
         /// Gets a recoloured Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> GreenMona { get; } = GetLazyLoaderForImage("recoloured-mona-green.jpg");
+        public static Lazy<Image<L8>> GreenMona { get; } = GetLazyLoaderForImage("recoloured-mona-green.jpg");
 
         /// <summary>
         /// Gets a recoloured Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> PinkMona { get; } = GetLazyLoaderForImage("recoloured-mona-pink.jpg");
+        public static Lazy<Image<L8>> PinkMona { get; } = GetLazyLoaderForImage("recoloured-mona-pink.jpg");
 
         /// <summary>
         /// Gets a recoloured Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> RedMona { get; } = GetLazyLoaderForImage("recoloured-mona-red.jpg");
+        public static Lazy<Image<L8>> RedMona { get; } = GetLazyLoaderForImage("recoloured-mona-red.jpg");
 
         /// <summary>
         /// Gets a recoloured Mona Lisa image.
         /// </summary>
-        public static Lazy<Image<Gray8>> YellowMona { get; } = GetLazyLoaderForImage("recoloured-mona-yellow.jpg");
+        public static Lazy<Image<L8>> YellowMona { get; } = GetLazyLoaderForImage("recoloured-mona-yellow.jpg");
 
         /// <summary>
         /// Gets an original Caravaggio painting.
         /// </summary>
-        public static Lazy<Image<Gray8>> SaintMatthew { get; } = GetLazyLoaderForImage("saint-matthew.jpg");
+        public static Lazy<Image<L8>> SaintMatthew { get; } = GetLazyLoaderForImage("saint-matthew.jpg");
 
         /// <summary>
         /// Gets an original Caravaggio painting.
         /// </summary>
-        public static Lazy<Image<Gray8>> JudithBeheading { get; } = GetLazyLoaderForImage("judith-beheading.jpg");
+        public static Lazy<Image<L8>> JudithBeheading { get; } = GetLazyLoaderForImage("judith-beheading.jpg");
 
         /// <summary>
         /// Gets an original Caravaggio painting.
         /// </summary>
-        public static Lazy<Image<Gray8>> SickBacchus { get; } = GetLazyLoaderForImage("sick-bacchus.jpg");
+        public static Lazy<Image<L8>> SickBacchus { get; } = GetLazyLoaderForImage("sick-bacchus.jpg");
 
         /// <summary>
         /// Gets a single-colour 1x1 image.
         /// </summary>
-        public static Lazy<Image<Gray8>> Uniform1 { get; } = GetLazyLoaderForImage("1x1.png");
+        public static Lazy<Image<L8>> Uniform1 { get; } = GetLazyLoaderForImage("1x1.png");
 
         /// <summary>
         /// Gets a single-colour 2x2 image.
         /// </summary>
-        public static Lazy<Image<Gray8>> Uniform2 { get; } = GetLazyLoaderForImage("2x2.png");
+        public static Lazy<Image<L8>> Uniform2 { get; } = GetLazyLoaderForImage("2x2.png");
 
         /// <summary>
         /// Gets a single-colour 4x4 image.
         /// </summary>
-        public static Lazy<Image<Gray8>> Uniform4 { get; } = GetLazyLoaderForImage("4x4.png");
+        public static Lazy<Image<L8>> Uniform4 { get; } = GetLazyLoaderForImage("4x4.png");
 
         /// <summary>
         /// Gets a single-colour 8x8 image.
         /// </summary>
-        public static Lazy<Image<Gray8>> Uniform8 { get; } = GetLazyLoaderForImage("8x8.png");
+        public static Lazy<Image<L8>> Uniform8 { get; } = GetLazyLoaderForImage("8x8.png");
 
         /// <summary>
         /// Gets a single-colour 16x16 image.
         /// </summary>
-        public static Lazy<Image<Gray8>> Uniform16 { get; } = GetLazyLoaderForImage("16x16.png");
+        public static Lazy<Image<L8>> Uniform16 { get; } = GetLazyLoaderForImage("16x16.png");
 
         /// <summary>
         /// Gets a single-colour 8k image.
         /// </summary>
-        public static Lazy<Image<Gray8>> Uniform8192 { get; } = GetLazyLoaderForImage("8192x8192.png");
+        public static Lazy<Image<L8>> Uniform8192 { get; } = GetLazyLoaderForImage("8192x8192.png");
 
-        private static Lazy<Image<Gray8>> GetLazyLoaderForImage(string image)
+        private static Lazy<Image<L8>> GetLazyLoaderForImage(string image)
         {
-            return new Lazy<Image<Gray8>>
+            return new Lazy<Image<L8>>
             (
                 () =>
                 {
@@ -256,7 +256,7 @@ namespace Puzzle.Tests.Data
                         .GetExecutingAssembly()
                         .GetManifestResourceStream($"Puzzle.Tests.Images.{image}");
 
-                    return Image.Load<Gray8>(resourceStream);
+                    return Image.Load<L8>(resourceStream);
                 },
                 LazyThreadSafetyMode.ExecutionAndPublication
             );

@@ -26,10 +26,8 @@ using System.Linq;
 using JetBrains.Annotations;
 using Puzzle.Extensions;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.Primitives;
 
 namespace Puzzle
 {
@@ -98,7 +96,7 @@ namespace Puzzle
         [PublicAPI]
         [Pure]
         public ReadOnlySpan<LuminosityLevel> GenerateSignature([NotNull] Image image) =>
-            GenerateSignature(image.CloneAs<Gray8>());
+            GenerateSignature(image.CloneAs<L8>());
 
         /// <summary>
         /// Generates a signature from the given image.
@@ -107,7 +105,7 @@ namespace Puzzle
         /// <returns>The signature.</returns>
         [PublicAPI]
         [Pure]
-        public ReadOnlySpan<LuminosityLevel> GenerateSignature(Image<Gray8> image)
+        public ReadOnlySpan<LuminosityLevel> GenerateSignature(Image<L8> image)
         {
             // Step 1: Generate a vector of double values representing the signature
             if (this.EnableAutocrop)
@@ -131,7 +129,7 @@ namespace Puzzle
         /// <param name="image">The image to crop.</param>
         /// <returns>The cropped image.</returns>
         [Pure]
-        private Image<Gray8> AutocropImage(Image<Gray8> image)
+        private Image<L8> AutocropImage(Image<L8> image)
         {
             image.Mutate(o => o.EntropyCrop());
 
@@ -143,9 +141,12 @@ namespace Puzzle
         /// with level values.
         /// </summary>
         /// <param name="image">The image to compute the points of.</param>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the backing buffer for the image is not contiguous.
+        /// </exception>
         /// <returns>The computed points.</returns>
         [Pure]
-        private ReadOnlySpan<double> ComputeAverageSampleLuminosities(Image<Gray8> image)
+        private ReadOnlySpan<double> ComputeAverageSampleLuminosities(Image<L8> image)
         {
             var squareSize = (int)Math.Max
             (
@@ -155,7 +156,10 @@ namespace Puzzle
 
             var squareCenters = ComputeSquareCenters(image).ToList();
 
-            var pixels = image.GetPixelSpan();
+            if (!image.TryGetSinglePixelSpan(out var pixels))
+            {
+                throw new InvalidOperationException("The backing buffer for the image was not contiguous.");
+            }
 
             Span<double> sampleLuminosities = new double[squareCenters.Count];
             for (var i = 0; i < squareCenters.Count; i++)
@@ -180,7 +184,7 @@ namespace Puzzle
         /// <param name="image">The image.</param>
         /// <returns>The centers.</returns>
         [Pure]
-        private IEnumerable<Point> ComputeSquareCenters(Image<Gray8> image)
+        private IEnumerable<Point> ComputeSquareCenters(Image<L8> image)
         {
             var xOffset = image.Width / (double)(this.GridSize + 1);
             var yOffset = image.Height / (double)(this.GridSize + 1);
@@ -210,7 +214,7 @@ namespace Puzzle
         [Pure]
         private double ComputeSquareAverage
         (
-            ReadOnlySpan<Gray8> pixels,
+            ReadOnlySpan<L8> pixels,
             int imageWidth,
             int imageHeight,
             Point squareCenter,
@@ -264,7 +268,7 @@ namespace Puzzle
         /// <param name="point">The center of the point to sample.</param>
         /// <returns>The sampled values.</returns>
         [Pure]
-        private double Sample3x3Point(ReadOnlySpan<Gray8> pixels, int imageWidth, int imageHeight, Point point)
+        private double Sample3x3Point(ReadOnlySpan<L8> pixels, int imageWidth, int imageHeight, Point point)
         {
             var sum = 0.0;
 
