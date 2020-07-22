@@ -37,7 +37,7 @@ namespace Puzzle.Extensions
         /// <param name="source">The source sequence.</param>
         /// <returns>The median value.</returns>
         [Pure]
-        internal static double Median([NotNull] this IEnumerable<double> source)
+        internal static double Median(this IEnumerable<double> source)
         {
             var sorted = source.OrderBy(x => x).ToList();
 

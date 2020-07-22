@@ -107,7 +107,7 @@ namespace Puzzle
         /// <returns>The signature.</returns>
         [PublicAPI]
         [Pure]
-        public ReadOnlySpan<LuminosityLevel> GenerateSignature([NotNull] Image<Gray8> image)
+        public ReadOnlySpan<LuminosityLevel> GenerateSignature(Image<Gray8> image)
         {
             // Step 1: Generate a vector of double values representing the signature
             if (this.EnableAutocrop)
@@ -130,8 +130,8 @@ namespace Puzzle
         /// </summary>
         /// <param name="image">The image to crop.</param>
         /// <returns>The cropped image.</returns>
-        [Pure, NotNull]
-        private Image<Gray8> AutocropImage([NotNull] Image<Gray8> image)
+        [Pure]
+        private Image<Gray8> AutocropImage(Image<Gray8> image)
         {
             image.Mutate(o => o.EntropyCrop());
 
@@ -145,7 +145,7 @@ namespace Puzzle
         /// <param name="image">The image to compute the points of.</param>
         /// <returns>The computed points.</returns>
         [Pure]
-        private ReadOnlySpan<double> ComputeAverageSampleLuminosities([NotNull] Image<Gray8> image)
+        private ReadOnlySpan<double> ComputeAverageSampleLuminosities(Image<Gray8> image)
         {
             var squareSize = (int)Math.Max
             (
@@ -179,8 +179,8 @@ namespace Puzzle
         /// </summary>
         /// <param name="image">The image.</param>
         /// <returns>The centers.</returns>
-        [Pure, NotNull]
-        private IEnumerable<Point> ComputeSquareCenters([NotNull] Image<Gray8> image)
+        [Pure]
+        private IEnumerable<Point> ComputeSquareCenters(Image<Gray8> image)
         {
             var xOffset = image.Width / (double)(this.GridSize + 1);
             var yOffset = image.Height / (double)(this.GridSize + 1);
