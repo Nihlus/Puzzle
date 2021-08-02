@@ -221,10 +221,11 @@ namespace Puzzle
             int squareSize
         )
         {
+            var (squareX, squareY) = squareCenter;
             var squareCorner = new Point
             {
-                X = (int)Math.Round(squareCenter.X - (squareSize / 2.0)),
-                Y = (int)Math.Round(squareCenter.Y - (squareSize / 2.0))
+                X = (int)Math.Round(squareX - (squareSize / 2.0)),
+                Y = (int)Math.Round(squareY - (squareSize / 2.0))
             };
 
             Span<double> values = stackalloc double[squareSize * squareSize];
@@ -274,7 +275,8 @@ namespace Puzzle
 
             for (var yOffset = 0; yOffset < 3; ++yOffset)
             {
-                var y = (point.Y - 1) + yOffset;
+                var (pointX, pointY) = point;
+                var y = (pointY - 1) + yOffset;
 
                 if (y > imageHeight - 1 || y < 0)
                 {
@@ -283,7 +285,7 @@ namespace Puzzle
 
                 for (var xOffset = 0; xOffset < 3; ++xOffset)
                 {
-                    var x = (point.X - 1) + xOffset;
+                    var x = (pointX - 1) + xOffset;
 
                     if (x > imageWidth - 1 || x < 0)
                     {
