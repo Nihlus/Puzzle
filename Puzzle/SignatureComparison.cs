@@ -75,19 +75,26 @@ namespace Puzzle
                 }
 
                 var rightValue = (sbyte)right[i];
-                if ((leftValue == 0 && rightValue == -2) || (leftValue == -2 && rightValue == 0))
+                switch (leftValue)
                 {
-                    result[i] = -3;
-                    continue;
+                    case 0 when rightValue == -2:
+                    case -2 when rightValue == 0:
+                    {
+                        result[i] = -3;
+                        continue;
+                    }
+                    case 0 when rightValue == 2:
+                    case 2 when rightValue == 0:
+                    {
+                        result[i] = 3;
+                        continue;
+                    }
+                    default:
+                    {
+                        result[i] = (sbyte)(leftValue - rightValue);
+                        break;
+                    }
                 }
-
-                if ((leftValue == 0 && rightValue == 2) || (leftValue == 2 && rightValue == 0))
-                {
-                    result[i] = 3;
-                    continue;
-                }
-
-                result[i] = (sbyte)(leftValue - rightValue);
             }
 
             return result;
