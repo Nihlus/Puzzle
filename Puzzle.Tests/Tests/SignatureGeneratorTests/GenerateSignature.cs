@@ -54,13 +54,13 @@ namespace Puzzle.Tests.Tests.SignatureGeneratorTests
             [MemberData(nameof(SampleImages.SmallImages), MemberType = typeof(SampleImages))]
             public void CanGenerateSignatureForSmallImages(Image<L8> smallImage)
             {
-                var signature = _generator.GenerateSignature(smallImage);
+                _ = _generator.GenerateSignature(smallImage);
             }
 
             [Fact]
             public void CanGenerateSignatureForLargeImage()
             {
-                var signature = _generator.GenerateSignature(SampleImages.Uniform8192.Value);
+                _ = _generator.GenerateSignature(SampleImages.Uniform8192.Value);
             }
         }
     }
