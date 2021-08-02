@@ -349,11 +349,16 @@ namespace Puzzle
 
                 if (difference < 0.0)
                 {
-                    luminosityLevels[i] = difference < muchDarkerCutoff ? LuminosityLevel.MuchDarker : LuminosityLevel.Darker;
+                    luminosityLevels[i] = difference < muchDarkerCutoff
+                        ? LuminosityLevel.MuchDarker
+                        : LuminosityLevel.Darker;
+
                     continue;
                 }
 
-                luminosityLevels[i] = difference > muchLighterCutoff ? LuminosityLevel.MuchLighter : LuminosityLevel.Lighter;
+                luminosityLevels[i] = difference > muchLighterCutoff
+                    ? LuminosityLevel.MuchLighter
+                    : LuminosityLevel.Lighter;
             }
 
             return luminosityLevels;
