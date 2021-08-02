@@ -150,15 +150,15 @@ namespace Puzzle
         {
             var distance = left.NormalizedDistance(right);
 
-            switch (distance)
+            return distance switch
             {
-                case var value when value <= 0.0: return SignatureSimilarity.Identical;
-                case var value when value <= sameThreshold: return SignatureSimilarity.Same;
-                case var value when value <= similarityThreshold: return SignatureSimilarity.Similar;
-                case var value when value <= dissimilarThreshold: return SignatureSimilarity.Dissimilar;
-                case var value when value <= differentThreshold: return SignatureSimilarity.Different;
-                default: return SignatureSimilarity.Different;
-            }
+                <= 0.0 => SignatureSimilarity.Identical,
+                var value when value <= sameThreshold => SignatureSimilarity.Same,
+                var value when value <= similarityThreshold => SignatureSimilarity.Similar,
+                var value when value <= dissimilarThreshold => SignatureSimilarity.Dissimilar,
+                var value when value <= differentThreshold => SignatureSimilarity.Different,
+                _ => SignatureSimilarity.Different
+            };
         }
     }
 }
