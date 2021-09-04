@@ -306,8 +306,8 @@ namespace Puzzle
             ReadOnlySpan<double> neighbourDifferences
         )
         {
-            var darks = new List<double>();
-            var lights = new List<double>();
+            var darks = new List<double>(neighbourDifferences.Length);
+            var lights = new List<double>(neighbourDifferences.Length);
 
             foreach (var difference in neighbourDifferences)
             {
