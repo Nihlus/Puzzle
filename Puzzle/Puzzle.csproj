@@ -7,8 +7,11 @@
     <PropertyGroup>
         <Title>Puzzle#</Title>
         <Description>A C# implementation of libpuzzle (an image fingerprinting algorithm)</Description>
-        <Version>2.0.1</Version>
-        <PackageReleaseNotes>Maintenance release; Update dependencies and target frameworks.</PackageReleaseNotes>
+        <Version>3.0.0</Version>
+        <PackageReleaseNotes>
+            Expose arrays where arrays are the true underlying types.
+            Eliminate an allocation that could cause a stack overflow.
+        </PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
