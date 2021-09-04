@@ -38,7 +38,7 @@ namespace Puzzle
         /// <param name="signature">The signature.</param>
         /// <returns>The euclidean length of the vector.</returns>
         [Pure]
-        private static double EuclideanLength(this ReadOnlySpan<sbyte> signature)
+        private static double EuclideanLength(this Span<sbyte> signature)
         {
             var sum = 0.0;
             foreach (var val in signature)
@@ -56,13 +56,13 @@ namespace Puzzle
         /// <param name="right">The right signature.</param>
         /// <returns>The subtracted signature.</returns>
         [Pure]
-        private static ReadOnlySpan<sbyte> Subtract
+        private static sbyte[] Subtract
         (
-            this ReadOnlySpan<LuminosityLevel> left,
-            ReadOnlySpan<LuminosityLevel> right
+            this LuminosityLevel[] left,
+            LuminosityLevel[] right
         )
         {
-            Span<sbyte> result = new sbyte[left.Length];
+            var result = new sbyte[left.Length];
 
             for (var i = 0; i < left.Length; ++i)
             {
@@ -109,12 +109,12 @@ namespace Puzzle
         [Pure, PublicAPI]
         public static double NormalizedDistance
         (
-            this ReadOnlySpan<LuminosityLevel> left,
-            ReadOnlySpan<LuminosityLevel> right
+            this LuminosityLevel[] left,
+            LuminosityLevel[] right
         )
         {
             var subtractedVectors = left.Subtract(right);
-            var subtractedLength = subtractedVectors.EuclideanLength();
+            var subtractedLength = subtractedVectors.AsSpan().EuclideanLength();
 
             var combinedLength = MemoryMarshal.Cast<LuminosityLevel, sbyte>(left).EuclideanLength() +
                                  MemoryMarshal.Cast<LuminosityLevel, sbyte>(right).EuclideanLength();
@@ -147,8 +147,8 @@ namespace Puzzle
         [Pure]
         public static SignatureSimilarity CompareTo
         (
-            this ReadOnlySpan<LuminosityLevel> left,
-            ReadOnlySpan<LuminosityLevel> right,
+            this LuminosityLevel[] left,
+            LuminosityLevel[] right,
             double sameThreshold = 0.4,
             double similarityThreshold = 0.48,
             double dissimilarThreshold = 0.68,

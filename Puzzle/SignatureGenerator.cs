@@ -97,7 +97,7 @@ namespace Puzzle
         /// <returns>The signature.</returns>
         [PublicAPI]
         [Pure]
-        public ReadOnlySpan<LuminosityLevel> GenerateSignature([NotNull] Image image) =>
+        public ReadOnlySpan<LuminosityLevel> GenerateSignature(Image image) =>
             GenerateSignature(image.CloneAs<L8>());
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Puzzle
         /// <returns>The signature.</returns>
         [PublicAPI]
         [Pure]
-        public ReadOnlySpan<LuminosityLevel> GenerateSignature(Image<L8> image)
+        public LuminosityLevel[] GenerateSignature(Image<L8> image)
         {
             // Step 1: Generate a vector of double values representing the signature
             if (this.EnableAutocrop)
@@ -148,7 +148,7 @@ namespace Puzzle
         /// </exception>
         /// <returns>The computed points.</returns>
         [Pure]
-        private ReadOnlySpan<double> ComputeAverageSampleLuminosities(Image<L8> image)
+        private double[] ComputeAverageSampleLuminosities(Image<L8> image)
         {
             var squareSize = (int)Math.Max
             (
@@ -163,7 +163,7 @@ namespace Puzzle
                 throw new InvalidOperationException("The backing buffer for the image was not contiguous.");
             }
 
-            Span<double> sampleLuminosities = new double[squareCenters.Count];
+            var sampleLuminosities = new double[squareCenters.Count];
             for (var i = 0; i < squareCenters.Count; i++)
             {
                 var squareCenter = squareCenters[i];
@@ -301,7 +301,7 @@ namespace Puzzle
         /// <param name="neighbourDifferences">The baseline values.</param>
         /// <returns>The image signature.</returns>
         [Pure]
-        private ReadOnlySpan<LuminosityLevel> ComputeRelativeLuminosityLevels
+        private LuminosityLevel[] ComputeRelativeLuminosityLevels
         (
             ReadOnlySpan<double> neighbourDifferences
         )
@@ -332,7 +332,7 @@ namespace Puzzle
             var muchDarkerCutoff = darks.Count > 0 ? darks.Median() : -this.NoiseCutoff;
             var muchLighterCutoff = lights.Count > 0 ? lights.Median() : this.NoiseCutoff;
 
-            Span<LuminosityLevel> luminosityLevels = new LuminosityLevel[neighbourDifferences.Length];
+            var luminosityLevels = new LuminosityLevel[neighbourDifferences.Length];
             for (var i = 0; i < neighbourDifferences.Length; i++)
             {
                 var difference = neighbourDifferences[i];
@@ -366,7 +366,7 @@ namespace Puzzle
         /// <param name="luminosityAverages">The sampled neighbours.</param>
         /// <returns>The value differences.</returns>
         [Pure]
-        private ReadOnlySpan<double> ComputeNeighbourDifferences(ReadOnlySpan<double> luminosityAverages)
+        private double[] ComputeNeighbourDifferences(ReadOnlySpan<double> luminosityAverages)
         {
             var neighbourCoordinateMap = new[]
             {
@@ -380,7 +380,7 @@ namespace Puzzle
                 new Point { X = 1, Y = 1 }
             };
 
-            Span<double> neighbourDifferences = new double[this.GridSize * this.GridSize * 8];
+            var neighbourDifferences = new double[this.GridSize * this.GridSize * 8];
             var spandex = 0;
 
             for (var x = 0; x < this.GridSize; ++x)
