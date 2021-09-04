@@ -21,8 +21,10 @@
 //
 
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 using Puzzle.Extensions;
 using SixLabors.ImageSharp;
@@ -228,9 +230,8 @@ namespace Puzzle
                 Y = (int)Math.Round(squareY - (squareSize / 2.0))
             };
 
-            Span<double> values = stackalloc double[squareSize * squareSize];
-            var spandex = 0;
-
+            var count = 0;
+            var sum = 0.0;
             for (var y = squareCorner.Y; y < squareCorner.Y + squareSize; ++y)
             {
                 if (y > imageHeight || y < 0)
@@ -245,18 +246,12 @@ namespace Puzzle
                         continue;
                     }
 
-                    values[spandex] = Sample3x3Point(pixels, imageWidth, imageHeight, new Point(x, y));
-                    ++spandex;
+                    sum += Sample3x3Point(pixels, imageWidth, imageHeight, new Point(x, y));
+                    ++count;
                 }
             }
 
-            var sum = 0.0;
-            foreach (var value in values)
-            {
-                sum += value;
-            }
-
-            return sum / values.Length;
+            return sum / count;
         }
 
         /// <summary>
