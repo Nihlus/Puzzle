@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Remora.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
+        <LibraryFrameworks>$(LibraryFrameworks);netstandard2.0</LibraryFrameworks>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -15,7 +15,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
+        <PackageReference Include="SixLabors.ImageSharp" />
     </ItemGroup>
 
 </Project>
