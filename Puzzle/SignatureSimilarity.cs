@@ -6,37 +6,36 @@
 
 using JetBrains.Annotations;
 
-namespace Puzzle
+namespace Puzzle;
+
+/// <summary>
+/// Enumerates the various similarity levels between two images.
+/// </summary>
+[PublicAPI]
+public enum SignatureSimilarity
 {
     /// <summary>
-    /// Enumerates the various similarity levels between two images.
+    /// The images are identical.
     /// </summary>
-    [PublicAPI]
-    public enum SignatureSimilarity
-    {
-        /// <summary>
-        /// The images are identical.
-        /// </summary>
-        Identical,
+    Identical,
 
-        /// <summary>
-        /// The image is the same image.
-        /// </summary>
-        Same,
+    /// <summary>
+    /// The image is the same image.
+    /// </summary>
+    Same,
 
-        /// <summary>
-        /// The images are similar.
-        /// </summary>
-        Similar,
+    /// <summary>
+    /// The images are similar.
+    /// </summary>
+    Similar,
 
-        /// <summary>
-        /// The images are dissimilar.
-        /// </summary>
-        Dissimilar,
+    /// <summary>
+    /// The images are dissimilar.
+    /// </summary>
+    Dissimilar,
 
-        /// <summary>
-        /// The images are different images.
-        /// </summary>
-        Different
-    }
+    /// <summary>
+    /// The images are different images.
+    /// </summary>
+    Different
 }
