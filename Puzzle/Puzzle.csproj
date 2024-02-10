@@ -9,8 +9,8 @@
         <Description>A C# implementation of libpuzzle (an image fingerprinting algorithm)</Description>
         <Version>3.0.1</Version>
         <PackageReleaseNotes>
-            Expose arrays where arrays are the true underlying types.
-            Eliminate an allocation that could cause a stack overflow.
+            Update target frameworks.
+            Update nuget packages.
         </PackageReleaseNotes>
     </PropertyGroup>
 
