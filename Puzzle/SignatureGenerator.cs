@@ -5,10 +5,8 @@
 //
 
 using System;
-using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 using Puzzle.Extensions;
 using SixLabors.ImageSharp;
@@ -142,7 +140,7 @@ public class SignatureGenerator
 
         var squareCenters = ComputeSquareCenters(image).ToList();
 
-        if (!image.TryGetSinglePixelSpan(out var pixels))
+        if (!image.DangerousTryGetSinglePixelMemory(out var pixels))
         {
             throw new InvalidOperationException("The backing buffer for the image was not contiguous.");
         }
@@ -172,8 +170,8 @@ public class SignatureGenerator
     [Pure]
     private IEnumerable<Point> ComputeSquareCenters(Image<L8> image)
     {
-        var xOffset = image.Width / (double)(this.GridSize + 1);
-        var yOffset = image.Height / (double)(this.GridSize + 1);
+        var widthOffset = image.Width / (double)(this.GridSize + 1);
+        var heightOffset = image.Height / (double)(this.GridSize + 1);
 
         for (var x = 0; x < this.GridSize; ++x)
         {
@@ -181,8 +179,8 @@ public class SignatureGenerator
             {
                 yield return new Point
                 {
-                    X = (int)Math.Round(xOffset * (x + 1)),
-                    Y = (int)Math.Round(yOffset * (y + 1))
+                    X = (int)Math.Round(widthOffset * (x + 1)),
+                    Y = (int)Math.Round(heightOffset * (y + 1))
                 };
             }
         }
@@ -200,7 +198,7 @@ public class SignatureGenerator
     [Pure]
     private double ComputeSquareAverage
     (
-        ReadOnlySpan<L8> pixels,
+        ReadOnlyMemory<L8> pixels,
         int imageWidth,
         int imageHeight,
         Point squareCenter,
@@ -248,23 +246,23 @@ public class SignatureGenerator
     /// <param name="point">The center of the point to sample.</param>
     /// <returns>The sampled values.</returns>
     [Pure]
-    private double Sample3x3Point(ReadOnlySpan<L8> pixels, int imageWidth, int imageHeight, Point point)
+    private double Sample3x3Point(ReadOnlyMemory<L8> pixels, int imageWidth, int imageHeight, Point point)
     {
         var sum = 0.0;
 
-        for (var yOffset = 0; yOffset < 3; ++yOffset)
+        for (var heightOffset = 0; heightOffset < 3; ++heightOffset)
         {
             var (pointX, pointY) = point;
-            var y = (pointY - 1) + yOffset;
+            var y = (pointY - 1) + heightOffset;
 
             if (y > imageHeight - 1 || y < 0)
             {
                 continue;
             }
 
-            for (var xOffset = 0; xOffset < 3; ++xOffset)
+            for (var widthOffset = 0; widthOffset < 3; ++widthOffset)
             {
-                var x = (pointX - 1) + xOffset;
+                var x = (pointX - 1) + widthOffset;
 
                 if (x > imageWidth - 1 || x < 0)
                 {
@@ -272,7 +270,7 @@ public class SignatureGenerator
                 }
 
                 var spandex = x + (y * imageWidth);
-                sum += pixels[spandex].PackedValue;
+                sum += pixels.Span[spandex].PackedValue;
             }
         }
 

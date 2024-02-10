@@ -240,7 +240,15 @@ public static class SampleImages
                     .GetExecutingAssembly()
                     .GetManifestResourceStream($"Puzzle.Tests.Images.{image}");
 
-                return Image.Load<L8>(resourceStream);
+                if (resourceStream is null)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                var imageConfiguration = Configuration.Default.Clone();
+                imageConfiguration.PreferContiguousImageBuffers = true;
+
+                return Image.Load<L8>(imageConfiguration, resourceStream);
             },
             LazyThreadSafetyMode.ExecutionAndPublication
         );
