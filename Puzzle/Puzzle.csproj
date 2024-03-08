@@ -3,10 +3,10 @@
     <PropertyGroup>
         <Title>Puzzle#</Title>
         <Description>A C# implementation of libpuzzle (an image fingerprinting algorithm)</Description>
-        <Version>3.0.1</Version>
+        <Version>4.0.0</Version>
         <PackageReleaseNotes>
-            Update target frameworks.
-            Update nuget packages.
+            Update ImageSharp.
+            Drop .NET Standard as a target.
         </PackageReleaseNotes>
     </PropertyGroup>
 
