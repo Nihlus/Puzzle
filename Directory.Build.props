@@ -6,6 +6,10 @@
         <UseSPDXFileHeaders>true</UseSPDXFileHeaders>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <TargetNetStandard>false</TargetNetStandard>
+    </PropertyGroup>
+
     <!-- NuGet-related properties -->
     <PropertyGroup>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>

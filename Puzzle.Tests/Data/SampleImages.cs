@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.PixelFormats;
 
 namespace Puzzle.Tests.Data;
@@ -248,7 +249,12 @@ public static class SampleImages
                 var imageConfiguration = Configuration.Default.Clone();
                 imageConfiguration.PreferContiguousImageBuffers = true;
 
-                return Image.Load<L8>(imageConfiguration, resourceStream);
+                var decoderOptions = new DecoderOptions
+                {
+                    Configuration = imageConfiguration
+                };
+
+                return Image.Load<L8>(decoderOptions, resourceStream);
             },
             LazyThreadSafetyMode.ExecutionAndPublication
         );

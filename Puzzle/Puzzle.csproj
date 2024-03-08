@@ -1,10 +1,6 @@
 <Project Sdk="Remora.Sdk">
 
     <PropertyGroup>
-        <LibraryFrameworks>$(LibraryFrameworks);netstandard2.0</LibraryFrameworks>
-    </PropertyGroup>
-
-    <PropertyGroup>
         <Title>Puzzle#</Title>
         <Description>A C# implementation of libpuzzle (an image fingerprinting algorithm)</Description>
         <Version>3.0.1</Version>
